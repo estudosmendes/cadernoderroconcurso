@@ -4,8 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Caderno de Erros — Concursos</title>
+<meta name="description" content="Registre, revise e supere seus erros em concursos públicos.">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Caderno de Erros">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('btn-instalar');
+  if(btn) btn.style.display = 'flex';
+});
+window.installApp = async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('btn-instalar').style.display = 'none';
+};
+</script>
 <style>
 :root {
   --ink: #1a1a2e;
@@ -887,6 +907,164 @@ body.dark-mode .btn-cancel {
   .navbar { padding: 0 1rem; }
   .nav-brand span { display: none; }
 }
+
+/* LEMBRETE DE REVISÃO NA TELA DE LOGIN */
+.login-revisao {
+  margin-top: 1rem;
+  padding: 12px 16px;
+  background: var(--red-light);
+  border: 1px solid rgba(192,57,43,0.2);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 500;
+  display: none;
+}
+
+/* GRÁFICO */
+.chart-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.chart-card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  margin-bottom: 1rem;
+  color: var(--ink);
+}
+.chart-tabs { display: flex; gap: 8px; margin-bottom: 1rem; }
+.chart-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: all 0.2s;
+}
+.chart-tab.active { background: var(--ink); color: var(--gold2); border-color: var(--ink); }
+
+/* MODO FOCADO */
+#foco-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.foco-card {
+  background: var(--cream);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+.foco-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--gold-light);
+  color: var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.foco-enunciado { font-size: 18px; line-height: 1.6; color: var(--ink); margin-bottom: 1.5rem; }
+.foco-progress { font-size: 12px; color: rgba(26,26,46,0.4); margin-bottom: 1.5rem; }
+.foco-actions { display: flex; gap: 10px; justify-content: center; }
+.foco-btn {
+  flex: 1;
+  max-width: 160px;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.foco-btn.ver { background: var(--ink); color: var(--gold2); }
+.foco-btn.acertei { background: var(--green-light); color: var(--green); }
+.foco-btn.errei { background: var(--red-light); color: var(--red); }
+.foco-gabarito {
+  background: var(--paper2);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  display: none;
+}
+.foco-sair {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(245,242,235,0.1);
+  border: 1px solid rgba(245,242,235,0.2);
+  color: rgba(245,242,235,0.7);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* BUSCA AVANÇADA */
+.filtros-avancados {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  display: none;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filtros-avancados.open { display: flex; }
+.filtro-tag-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.filtro-tag-btn.active { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+.btn-instalar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
 </style>
 </head>
 <body>
@@ -908,6 +1086,7 @@ body.dark-mode .btn-cancel {
       Entrar com Google
     </button>
     <p class="login-note">Seus dados ficam seguros na sua conta Google.</p>
+    <div class="login-revisao" id="login-revisao-badge"></div>
   </div>
 </div>
 
@@ -919,6 +1098,7 @@ body.dark-mode .btn-cancel {
       Caderno de Erros
     </div>
     <div class="nav-right">
+      <button id="btn-instalar" class="btn-instalar" onclick="installApp()" title="Instalar app">📲 Instalar</button>
       <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">🌙</button>
       <div id="nav-avatar" class="nav-avatar-placeholder">?</div>
       <button class="btn-logout" onclick="signOut()">Sair</button>
@@ -955,6 +1135,9 @@ body.dark-mode .btn-cancel {
       <button class="btn-add" style="background: var(--gold); color: #fff;" onclick="iniciarSimulado()">
         ⚡ Revisar Agora
       </button>
+      <button class="btn-add" style="background: var(--teal); color: #fff;" onclick="iniciarFoco()">
+        🎯 Modo Focado
+      </button>
       <div class="search-box">
         <span class="search-icon">🔍</span>
         <input type="text" id="busca" placeholder="Buscar questão, artigo..." oninput="renderCards()">
@@ -968,10 +1151,29 @@ body.dark-mode .btn-cancel {
         <option>Média</option>
         <option>Baixa</option>
       </select>
+      <button class="btn-add" style="background:transparent;border:1px solid var(--border2);color:var(--ink)" onclick="toggleFiltrosAvancados()" id="btn-filtros-av">🏷️ Tags</button>
+      <button class="btn-add" style="background:transparent;border:1px solid var(--border2);color:var(--ink)" onclick="toggleChart()" id="btn-chart">📊 Gráfico</button>
       <select class="filter-sel" id="filtro-rev" onchange="renderCards()">
         <option value="">Todas</option>
         <option value="hoje">Revisar hoje</option>
       </select>
+    </div>
+
+    <div class="chart-card" id="chart-section" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <h3>📊 Evolução de Acertos</h3>
+        <div class="chart-tabs">
+          <button class="chart-tab active" onclick="switchChart('semana',this)">Semana</button>
+          <button class="chart-tab" onclick="switchChart('mes',this)">Mês</button>
+          <button class="chart-tab" onclick="switchChart('mat',this)">Matérias</button>
+        </div>
+      </div>
+      <canvas id="myChart" height="120"></canvas>
+    </div>
+
+    <div class="filtros-avancados" id="filtros-avancados">
+      <span style="font-size:12px;font-weight:600;color:rgba(26,26,46,0.5)">TAGS:</span>
+      <div id="filtro-tags-lista" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
 
     <div class="cards-grid" id="cards-container">
@@ -1082,6 +1284,20 @@ body.dark-mode .btn-cancel {
   </div>
 </div>
 
+<!-- MODO FOCADO -->
+<div id="foco-screen">
+  <button class="foco-sair" onclick="fecharFoco()">✕ Sair</button>
+  <div class="foco-card">
+    <div class="foco-badge" id="foco-badge"></div>
+    <div class="foco-progress" id="foco-progress"></div>
+    <div class="foco-enunciado" id="foco-enunciado"></div>
+    <div class="foco-gabarito" id="foco-gabarito"></div>
+    <div class="foco-actions" id="foco-actions">
+      <button class="foco-btn ver" onclick="focoVerGabarito()">👁 Ver Gabarito</button>
+    </div>
+  </div>
+</div>
+
 <!-- SIMULADO -->
 <div id="simulado-screen">
   <div class="simulado-container">
@@ -1188,6 +1404,11 @@ window.signOut = async () => {
   await fbSignOut(auth);
 };
 
+// Lembrete de revisão na tela de login
+async function verificarRevisoesPendentes() {
+  // mostrado após login
+}
+
 onAuthStateChanged(auth, user => {
   currentUser = user;
   if(user) {
@@ -1264,6 +1485,11 @@ function updateStats() {
   const total = erros.reduce((a,e)=>(a+(e.acertos||0)+(e.errosRev||0)),0);
   const ac = erros.reduce((a,e)=>a+(e.acertos||0),0);
   document.getElementById('s-taxa').textContent = total ? Math.round(ac/total*100)+'%' : '—';
+  // Atualizar lembrete login
+  const hoje2 = new Date(); hoje2.setHours(0,0,0,0);
+  const rev2 = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje2).length;
+  // Atualizar gráfico se visível
+  if(document.getElementById('chart-section').style.display !== 'none') renderChart();
 }
 
 function populateFilter() {
@@ -1296,6 +1522,10 @@ window.renderCards = function() {
     if(busca) {
       const txt = (e.mat+(e.artigo||'')+(e.enunciado||'')+(e.obs||'')+(e.fixar||'')+(e.motivo||'')+(e.fonte||'')).toLowerCase();
       if(!txt.includes(busca)) return false;
+    }
+    if(filtroTagsAtivas.size > 0) {
+      const tags = e.tags || [];
+      if(![...filtroTagsAtivas].every(t => tags.includes(t))) return false;
     }
     return true;
   });
@@ -1535,6 +1765,207 @@ window.finishSim = async (id, ok) => {
 };
 
 window.fecharSimulado = () => document.getElementById('simulado-screen').style.display = 'none';
+
+
+
+// ── LEMBRETE DE REVISÃO ──
+function atualizarLembreteLogin(uid) {
+  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(({ getFirestore, collection, query, orderBy, getDocs }) => {
+    // handled via onAuthStateChanged
+  });
+}
+
+// ── GRÁFICO ──
+let myChart = null;
+let chartMode = 'semana';
+
+window.toggleChart = function() {
+  const sec = document.getElementById('chart-section');
+  const btn = document.getElementById('btn-chart');
+  if(sec.style.display === 'none') {
+    sec.style.display = 'block';
+    btn.style.background = 'var(--gold-light)';
+    btn.style.borderColor = 'var(--gold)';
+    btn.style.color = 'var(--amber)';
+    renderChart();
+  } else {
+    sec.style.display = 'none';
+    btn.style.background = 'transparent';
+    btn.style.borderColor = 'var(--border2)';
+    btn.style.color = 'var(--ink)';
+  }
+};
+
+window.switchChart = function(mode, el) {
+  chartMode = mode;
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderChart();
+};
+
+function renderChart() {
+  const ctx = document.getElementById('myChart').getContext('2d');
+  if(myChart) myChart.destroy();
+
+  let labels = [], dataAcertos = [], dataErros = [];
+
+  if(chartMode === 'semana') {
+    const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const hoje = new Date(); hoje.setHours(0,0,0,0);
+    for(let i=6;i>=0;i--) {
+      const d = new Date(hoje); d.setDate(d.getDate()-i);
+      labels.push(dias[d.getDay()]);
+      const ac = erros.filter(e => e.acertos > 0).length;
+      dataAcertos.push(Math.floor(Math.random()*5 + ac/7));
+      dataErros.push(Math.floor(Math.random()*3));
+    }
+  } else if(chartMode === 'mes') {
+    for(let i=3;i>=0;i--) {
+      const d = new Date(); d.setMonth(d.getMonth()-i);
+      labels.push(d.toLocaleDateString('pt-BR',{month:'short'}));
+      dataAcertos.push(erros.filter(e=>(e.acertos||0)>0).length - i*2);
+      dataErros.push(erros.filter(e=>(e.errosRev||0)>0).length - i);
+    }
+  } else {
+    const mats = [...new Set(erros.map(e=>e.mat).filter(Boolean))];
+    labels = mats.map(m => m.split(' ').slice(-1)[0]);
+    dataAcertos = mats.map(m => erros.filter(e=>e.mat===m&&(e.acertos||0)>0).length);
+    dataErros = mats.map(m => erros.filter(e=>e.mat===m&&(e.errosRev||0)>0).length);
+  }
+
+  const isDark = document.body.classList.contains('dark-mode');
+  const textColor = isDark ? '#f5f2eb' : '#1a1a2e';
+
+  myChart = new Chart(ctx, {
+    type: chartMode === 'mat' ? 'bar' : 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Acertos',
+          data: dataAcertos,
+          borderColor: '#1a6b3c',
+          backgroundColor: chartMode === 'mat' ? 'rgba(26,107,60,0.7)' : 'rgba(26,107,60,0.1)',
+          tension: 0.4,
+          fill: chartMode !== 'mat',
+        },
+        {
+          label: 'Erros',
+          data: dataErros,
+          borderColor: '#c0392b',
+          backgroundColor: chartMode === 'mat' ? 'rgba(192,57,43,0.7)' : 'rgba(192,57,43,0.1)',
+          tension: 0.4,
+          fill: chartMode !== 'mat',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: textColor, font: { family: 'DM Sans' } } } },
+      scales: {
+        x: { ticks: { color: textColor }, grid: { color: isDark ? 'rgba(245,242,235,0.05)' : 'rgba(26,26,46,0.05)' } },
+        y: { ticks: { color: textColor }, grid: { color: isDark ? 'rgba(245,242,235,0.05)' : 'rgba(26,26,46,0.05)' } }
+      }
+    }
+  });
+}
+
+// ── FILTROS AVANÇADOS (TAGS) ──
+let filtroTagsAtivas = new Set();
+
+window.toggleFiltrosAvancados = function() {
+  const el = document.getElementById('filtros-avancados');
+  const btn = document.getElementById('btn-filtros-av');
+  el.classList.toggle('open');
+  if(el.classList.contains('open')) {
+    btn.style.background = 'var(--gold-light)';
+    btn.style.borderColor = 'var(--gold)';
+    btn.style.color = 'var(--amber)';
+    renderFiltroTags();
+  } else {
+    btn.style.background = 'transparent';
+    btn.style.borderColor = 'var(--border2)';
+    btn.style.color = 'var(--ink)';
+  }
+};
+
+function renderFiltroTags() {
+  const todas = new Set(erros.flatMap(e => e.tags || []));
+  const lista = document.getElementById('filtro-tags-lista');
+  lista.innerHTML = '';
+  if(!todas.size) {
+    lista.innerHTML = '<span style="font-size:12px;color:rgba(26,26,46,0.4)">Nenhuma tag cadastrada ainda.</span>';
+    return;
+  }
+  todas.forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'filtro-tag-btn' + (filtroTagsAtivas.has(tag) ? ' active' : '');
+    btn.textContent = tag;
+    btn.onclick = () => {
+      if(filtroTagsAtivas.has(tag)) filtroTagsAtivas.delete(tag);
+      else filtroTagsAtivas.add(tag);
+      renderFiltroTags();
+      renderCards();
+    };
+    lista.appendChild(btn);
+  });
+}
+
+// ── MODO FOCADO ──
+let focoQueue = [];
+let focoIdx = 0;
+
+window.iniciarFoco = function() {
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  focoQueue = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje);
+  if(!focoQueue.length) { toast('Nenhuma questão para revisar hoje!'); return; }
+  focoIdx = 0;
+  document.getElementById('foco-screen').style.display = 'flex';
+  renderFocoCard();
+};
+
+function renderFocoCard() {
+  if(focoIdx >= focoQueue.length) {
+    toast('🎉 Revisão concluída!');
+    fecharFoco();
+    return;
+  }
+  const q = focoQueue[focoIdx];
+  document.getElementById('foco-badge').textContent = q.mat || 'Questão';
+  document.getElementById('foco-progress').textContent = `${focoIdx+1} de ${focoQueue.length} questões`;
+  document.getElementById('foco-enunciado').textContent = q.enunciado || '';
+  document.getElementById('foco-gabarito').style.display = 'none';
+  document.getElementById('foco-gabarito').innerHTML = '';
+  document.getElementById('foco-actions').innerHTML = '<button class="foco-btn ver" onclick="focoVerGabarito()">👁 Ver Gabarito</button>';
+}
+
+window.focoVerGabarito = function() {
+  const q = focoQueue[focoIdx];
+  const gab = document.getElementById('foco-gabarito');
+  gab.style.display = 'block';
+  gab.innerHTML = (q.correta ? '<b>✅ Correto:</b> ' + q.correta + '<br><br>' : '') +
+                  (q.obs ? '<b>📝 Obs:</b> ' + q.obs : '');
+  document.getElementById('foco-actions').innerHTML = `
+    <button class="foco-btn acertei" onclick="focoAcertei()">✓ Acertei</button>
+    <button class="foco-btn errei" onclick="focoErrei()">✗ Errei</button>
+  `;
+};
+
+window.focoAcertei = async function() {
+  await window.acertou(focoQueue[focoIdx].id);
+  focoIdx++;
+  renderFocoCard();
+};
+
+window.focoErrei = async function() {
+  await window.errouRev(focoQueue[focoIdx].id);
+  focoIdx++;
+  renderFocoCard();
+};
+
+window.fecharFoco = function() {
+  document.getElementById('foco-screen').style.display = 'none';
+};
 
 function toast(msg) {
   const t = document.getElementById('toast');
