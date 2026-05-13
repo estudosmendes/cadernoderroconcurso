@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Caderno de Erros — Concursos</title>
 <meta name="description" content="Registre, revise e supere seus erros em concursos públicos.">
-<meta name="theme-color" content="#4a2c3a">
+<meta name="theme-color" content="#3a2535">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Caderno de Erros">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -25,90 +26,91 @@ window.installApp = async () => {
   deferredPrompt = null;
   document.getElementById('btn-instalar').style.display = 'none';
 };
+
+// Dark mode ANTES de renderizar — sem flash
+(function(){
+  const saved = localStorage.getItem('darkMode');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(saved === 'true' || (saved === null && prefersDark)) {
+    document.documentElement.classList.add('dark-mode');
+  }
+})();
 </script>
+
 <style>
+/* ═══════════════════════════════════════════════
+   DESIGN SYSTEM — Paleta semântica coesa
+   Primária: roxo-escuro (#3a2535) como âncora
+   9 ramos de cor, cada um com significado fixo
+═══════════════════════════════════════════════ */
 :root {
-  /* Cores Primárias - Tons Pastéis Suaves */
-  --ink: #5a3a4a;
-  --ink2: #6b4a5a;
-  --paper: #faf7f5;
-  --paper2: #f5ede8;
-  --paper3: #f0e5de;
-  --cream: #fffbf9;
-  
-  /* Paleta Pastel Harmônica - Psicologia das Cores */
-  --pastel-rosa: #f5c9d9;      /* Rosa suave - conforto, calma */
-  --pastel-rosa-dark: #d97a9a; /* Rosa mais escuro para contraste */
-  --pastel-azul: #d4e4f7;       /* Azul pastel - tranquilidade, foco */
-  --pastel-azul-dark: #6b9fd9; /* Azul mais escuro para contraste */
-  --pastel-amarelo: #fef3d0;    /* Amarelo pastel - otimismo, energia */
-  --pastel-amarelo-dark: #d4a946; /* Amarelo mais escuro */
-  --pastel-coral: #f5d4c8;      /* Coral suave - criatividade, calidez */
-  --pastel-coral-dark: #d97a5f; /* Coral mais escuro */
-  --pastel-menta: #d4ebe0;      /* Menta pastel - frescor, renovação */
-  --pastel-menta-dark: #6ba89a; /* Menta mais escuro */
-  --pastel-lilás: #e8d9f0;      /* Lilás pastel - criatividade, serenidade */
-  --pastel-lilás-dark: #a97ab5; /* Lilás mais escuro */
-  --pastel-verde: #d9e8d0;      /* Verde pastel - equilíbrio, natureza */
-  --pastel-verde-dark: #7aa96a; /* Verde mais escuro */
-  
-  /* Cores Funcionais */
-  --gold: #d9a57a;              /* Ouro suave */
-  --gold2: #e8c4a0;             /* Ouro claro */
-  --gold-light: #fef0e8;        /* Ouro muito claro */
-  --red: #d97a6a;               /* Vermelho pastel */
-  --red-light: #fce8e3;         /* Vermelho muito claro */
-  --green: #6ba87a;             /* Verde funcional */
-  --green-light: #e8f3e8;       /* Verde muito claro */
-  --blue: #7a9fd9;              /* Azul funcional */
-  --blue-light: #e8f0f8;        /* Azul muito claro */
-  --amber: #d9a07a;             /* Âmbar suave */
-  --amber-light: #fef0e8;       /* Âmbar muito claro */
-  --purple: #a97ab5;            /* Roxo pastel */
-  --purple-light: #f0e8f8;      /* Roxo muito claro */
-  --teal: #6ba8a8;              /* Teal pastel */
-  --teal-light: #e8f3f3;        /* Teal muito claro */
-  --accent: #d97a9a;            /* Destaque rosa */
-  --accent2: #e8a8bf;           /* Destaque rosa claro */
-  
-  /* Borders e Shadows */
-  --border: rgba(90,58,74,0.08);
-  --border2: rgba(90,58,74,0.12);
-  --shadow: 0 2px 16px rgba(217,122,154,0.08);
-  --shadow-lg: 0 8px 32px rgba(217,122,154,0.12);
-  --radius: 14px;
-  --radius-sm: 9px;
+  --ink:        #3a2535;
+  --ink2:       #5a3a50;
+  --paper:      #f7f4f2;
+  --paper2:     #f0ebe8;
+  --paper3:     #e8e0dc;
+  --cream:      #ffffff;
+
+  /* Ramos semânticos */
+  --purple-50:  #EEEDFE; --purple-100: #CECBF6; --purple-800: #3C3489; --purple-900: #26215C;
+  --teal-50:    #E1F5EE; --teal-100:   #9FE1CB; --teal-800:   #085041; --teal-900:   #04342C;
+  --coral-50:   #FAECE7; --coral-100:  #F5C4B3; --coral-800:  #712B13; --coral-900:  #4A1B0C;
+  --pink-50:    #FBEAF0; --pink-100:   #F4C0D1; --pink-800:   #72243E; --pink-900:   #4B1528;
+  --gray-50:    #F1EFE8; --gray-100:   #D3D1C7; --gray-800:   #444441; --gray-900:   #2C2C2A;
+  --blue-50:    #E6F1FB; --blue-100:   #B5D4F4; --blue-800:   #0C447C; --blue-900:   #042C53;
+  --green-50:   #EAF3DE; --green-100:  #C0DD97; --green-800:  #27500A; --green-900:  #173404;
+  --amber-50:   #FAEEDA; --amber-100:  #FAC775; --amber-800:  #633806; --amber-900:  #412402;
+  --red-50:     #FCEBEB; --red-100:    #F7C1C1; --red-800:    #791F1F; --red-900:    #501313;
+
+  /* Cores funcionais derivadas dos ramos */
+  --danger:     #E24B4A;
+  --danger-bg:  #FCEBEB;
+  --success:    #639922;
+  --success-bg: #EAF3DE;
+  --warning:    #BA7517;
+  --warning-bg: #FAEEDA;
+  --info:       #185FA5;
+  --info-bg:    #E6F1FB;
+  --accent:     #a05a6a;
+  --accent-bg:  #FBEAF0;
+
+  --border:     rgba(58,37,53,0.08);
+  --border2:    rgba(58,37,53,0.14);
+  --shadow:     0 1px 8px rgba(58,37,53,0.08);
+  --shadow-lg:  0 4px 24px rgba(58,37,53,0.12);
+  --radius:     12px;
+  --radius-sm:  8px;
+  --radius-xs:  5px;
 }
 
-body.dark-mode {
-  /* Modo Noturno - Tons Suaves e Harmônicos */
-  --ink: #f5e8f0;
-  --ink2: #e8d9e8;
-  --paper: #3a2a35;
-  --paper2: #4a3a45;
-  --paper3: #5a4a55;
-  --cream: #423240;
-  
-  /* Cores Pastéis Ajustadas para o Modo Noturno */
-  --pastel-rosa: #8a5a7a;       /* Rosa mais escuro */
-  --pastel-rosa-dark: #b59aaa;  /* Rosa mais claro no dark */
-  --pastel-azul: #5a7a9a;       /* Azul mais escuro */
-  --pastel-azul-dark: #8abadb;  /* Azul mais claro no dark */
-  --pastel-amarelo: #8a7a4a;    /* Amarelo mais escuro */
-  --pastel-amarelo-dark: #d4c480; /* Amarelo mais claro */
-  --pastel-coral: #8a5a50;      /* Coral mais escuro */
-  --pastel-coral-dark: #d9a890; /* Coral mais claro */
-  --pastel-menta: #5a8a7a;      /* Menta mais escuro */
-  --pastel-menta-dark: #8acaa0; /* Menta mais claro */
-  --pastel-lilás: #7a5a9a;      /* Lilás mais escuro */
-  --pastel-lilás-dark: #c9aadb; /* Lilás mais claro */
-  --pastel-verde: #5a7a5a;      /* Verde mais escuro */
-  --pastel-verde-dark: #8aaa8a; /* Verde mais claro */
-  
-  --border: rgba(245,232,240,0.08);
-  --border2: rgba(245,232,240,0.12);
-  --shadow: 0 2px 16px rgba(0,0,0,0.4);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+html.dark-mode {
+  --ink:        #f0e8f0;
+  --ink2:       #d8c8d8;
+  --paper:      #2a1f28;
+  --paper2:     #3a2a38;
+  --paper3:     #4a3a48;
+  --cream:      #32253080;
+
+  --purple-50:  #3a3060; --purple-100: #5a509a; --purple-800: #CECBF6; --purple-900: #EEEDFE;
+  --teal-50:    #1a3a30; --teal-100:   #2a6050; --teal-800:   #9FE1CB; --teal-900:   #E1F5EE;
+  --red-50:     #3a1a1a; --red-100:    #6a2a2a; --red-800:    #F7C1C1; --red-900:    #FCEBEB;
+  --green-50:   #1a2a10; --green-100:  #2a4a18; --green-800:  #C0DD97; --green-900:  #EAF3DE;
+  --amber-50:   #3a2a10; --amber-100:  #6a4a18; --amber-800:  #FAC775; --amber-900:  #FAEEDA;
+  --blue-50:    #0a2040; --blue-100:   #1a3a6a; --blue-800:   #B5D4F4; --blue-900:   #E6F1FB;
+  --gray-50:    #2a2820; --gray-100:   #4a4840; --gray-800:   #D3D1C7; --gray-900:   #F1EFE8;
+  --pink-50:    #3a1a28; --pink-100:   #6a2a48; --pink-800:   #F4C0D1; --pink-900:   #FBEAF0;
+  --coral-50:   #3a1a10; --coral-100:  #6a2a1a; --coral-800:  #F5C4B3; --coral-900:  #FAECE7;
+
+  --danger:     #E24B4A; --danger-bg:  #3a1a1a;
+  --success:    #7ab540; --success-bg: #1a2a10;
+  --warning:    #d9901a; --warning-bg: #3a2a10;
+  --info:       #4a9fd9; --info-bg:    #0a2040;
+  --accent:     #c07a8a; --accent-bg:  #3a1a28;
+
+  --border:     rgba(240,232,240,0.08);
+  --border2:    rgba(240,232,240,0.14);
+  --shadow:     0 1px 8px rgba(0,0,0,0.3);
+  --shadow-lg:  0 4px 24px rgba(0,0,0,0.4);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -119,10 +121,10 @@ body {
   color: var(--ink);
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s, color 0.25s;
 }
 
-/* ── TELA DE LOGIN ── */
+/* ── LOGIN ── */
 #login-screen {
   min-height: 100vh;
   display: flex;
@@ -132,991 +134,707 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 #login-screen::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(201,122,150,0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(201,122,150,0.13) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(160,90,106,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(160,90,106,0.15) 0%, transparent 50%);
 }
-
 .login-grid {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(201,122,150,0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,122,150,0.07) 1px, transparent 1px);
+    linear-gradient(rgba(160,90,106,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160,90,106,0.07) 1px, transparent 1px);
   background-size: 40px 40px;
 }
-
 .login-card {
-  position: relative;
-  z-index: 2;
-  background: var(--cream);
+  position: relative; z-index: 2;
+  background: #fff;
   border-radius: 20px;
   padding: 3rem 2.5rem;
-  width: min(440px, 92vw);
+  width: min(420px, 92vw);
   text-align: center;
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(201,168,76,0.2);
-  animation: fadeUp 0.6s ease both;
+  box-shadow: var(--shadow-lg);
+  animation: fadeUp 0.5s ease both;
 }
-
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .login-logo {
-  width: 64px;
-  height: 64px;
+  width: 60px; height: 60px;
   background: var(--ink);
   border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   margin: 0 auto 1.5rem;
-  font-size: 28px;
+  font-size: 26px;
 }
-
 .login-card h1 {
   font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--ink);
+  font-size: 26px; color: #3a2535;
   margin-bottom: 0.5rem;
-  line-height: 1.2;
 }
-
-.login-card p {
-  font-size: 14px;
-  color: rgba(90,58,74,0.55);
-  margin-bottom: 2rem;
-  line-height: 1.5;
-}
-
-body.dark-mode .login-card p {
-  color: rgba(245,232,240,0.55);
-}
-
+.login-card > p { font-size: 14px; color: #9a8a96; margin-bottom: 2rem; line-height: 1.5; }
 .btn-google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 20px;
-  background: var(--ink);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 0.01em;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; padding: 13px 20px;
+  background: #3a2535; color: #fff;
+  border: none; border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
 }
-
-.btn-google:hover { background: var(--ink2); transform: translateY(-1px); box-shadow: var(--shadow); }
-.btn-google:active { transform: translateY(0); }
-
+.btn-google:hover { background: #5a3a50; transform: translateY(-1px); }
 .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
+.login-note { margin-top: 1rem; font-size: 12px; color: #bab0b6; }
 
-.login-note {
-  margin-top: 1.25rem;
-  font-size: 12px;
-  color: rgba(90,58,74,0.4);
-}
-
-body.dark-mode .login-note {
-  color: rgba(245,232,240,0.4);
-}
-
-/* ── APP ── */
-#app { display: none; min-height: 100vh; }
-
-/* NAVBAR */
+/* ── NAVBAR ── */
 .navbar {
   background: var(--ink);
   padding: 0 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: 0 1px 0 rgba(201,122,150,0.25);
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px;
+  position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 1px 0 rgba(160,90,106,0.2);
 }
-
 .nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   font-family: 'DM Serif Display', serif;
-  font-size: 18px;
-  color: var(--gold2);
-  letter-spacing: 0.01em;
+  font-size: 17px; color: #f0e0e8;
 }
-
 .nav-brand span { font-size: 20px; }
-
-.nav-right { display: flex; align-items: center; gap: 12px; }
-
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-btn {
+  background: transparent;
+  border: 1px solid rgba(240,224,232,0.2);
+  color: rgba(240,224,232,0.7);
+  border-radius: var(--radius-sm);
+  padding: 5px 11px; font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn:hover { border-color: rgba(240,224,232,0.4); color: #f0e0e8; }
 .nav-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid rgba(201,122,150,0.4);
-  object-fit: cover;
-  cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid rgba(160,90,106,0.5);
+  object-fit: cover; cursor: pointer;
 }
-
 .nav-avatar-placeholder {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 2px solid rgba(201,122,150,0.4);
-  background: rgba(201,122,150,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gold2);
-  cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid rgba(160,90,106,0.5);
+  background: rgba(160,90,106,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #f0d0dc;
 }
-
-.btn-logout {
-  background: transparent;
-  border: 1px solid rgba(201,122,150,0.35);
-  color: rgba(252,232,239,0.75);
-  border-radius: var(--radius-sm);
-  padding: 6px 12px;
-  font-size: 12px;
+#btn-instalar {
+  display: none; align-items: center; gap: 6px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: var(--radius-sm);
+  padding: 6px 12px; font-size: 13px;
   font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  transition: all 0.2s;
 }
-.btn-logout:hover { border-color: var(--gold); color: var(--gold2); }
 
-.dark-mode-toggle {
-  background: transparent;
-  border: 1px solid rgba(201,122,150,0.35);
-  color: rgba(252,232,239,0.75);
-  border-radius: var(--radius-sm);
-  padding: 6px 12px;
-  font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-right: 8px;
-}
-.dark-mode-toggle:hover { border-color: var(--gold); color: var(--gold2); }
+/* ── MAIN ── */
+.main { max-width: 1180px; margin: 0 auto; padding: 1.5rem 1.25rem 5rem; }
 
-/* MAIN */
-.main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
-
-/* STATS */
+/* ── STATS ── */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
-  margin-bottom: 1.5rem;
+  gap: 10px; margin-bottom: 1.25rem;
 }
-
 .stat {
   background: var(--cream);
-  border: 1px solid var(--border);
+  border: 0.5px solid var(--border2);
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  position: relative;
-  overflow: hidden;
+  padding: 1rem 1.125rem;
+  position: relative; overflow: hidden;
 }
-
+html.dark-mode .stat { background: var(--paper2); }
 .stat::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
   background: var(--accent);
 }
-
+.stat.danger::before  { background: var(--danger); }
+.stat.success::before { background: var(--success); }
+.stat.info::before    { background: var(--info); }
 .stat-num {
   font-family: 'DM Serif Display', serif;
-  font-size: 32px;
-  color: var(--ink);
-  line-height: 1;
-  margin-bottom: 4px;
+  font-size: 30px; color: var(--ink);
+  line-height: 1; margin-bottom: 3px;
 }
+.stat.danger .stat-num  { color: var(--danger); }
+.stat.success .stat-num { color: var(--success); }
+.stat.info .stat-num    { color: var(--info); }
+.stat-lbl { font-size: 11px; color: rgba(58,37,53,0.45); }
+html.dark-mode .stat-lbl { color: rgba(240,232,240,0.45); }
 
-.stat-lbl {
-  font-size: 12px;
-  color: rgba(90,58,74,0.5);
-  font-weight: 400;
-}
-
-body.dark-mode .stat-lbl {
-  color: rgba(245,232,240,0.5);
-}
-
-.stat.danger::before { background: #d97a6a; }  /* Vermelho pastel */
-.stat.danger .stat-num { color: #d97a6a; }
-.stat.success::before { background: #6ba87a; }  /* Verde pastel */
-.stat.success .stat-num { color: #6ba87a; }
-
-/* TOOLBAR */
+/* ── TOOLBAR ── */
 .toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  align-items: center;
+  display: flex; gap: 8px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap; align-items: center;
 }
-
-.btn-add {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--ink);
-  color: var(--gold2);
-  border: none;
+.btn-primary {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--ink); color: #f0e0e8;
+  border: none; border-radius: var(--radius);
+  padding: 9px 16px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.btn-primary:hover { background: var(--ink2); transform: translateY(-1px); }
+.btn-accent {
+  background: var(--accent); color: #fff;
+  border: none; border-radius: var(--radius);
+  padding: 9px 16px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.btn-accent:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-outline {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent;
+  border: 0.5px solid var(--border2);
+  color: var(--ink);
   border-radius: var(--radius);
-  padding: 10px 18px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  padding: 9px 14px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
 }
-.btn-add:hover { background: var(--ink2); transform: translateY(-1px); }
-
+.btn-outline:hover { background: var(--paper2); border-color: var(--border2); }
+.btn-outline.active {
+  background: var(--amber-50); border-color: var(--warning);
+  color: var(--warning);
+}
+html.dark-mode .btn-outline.active {
+  background: var(--amber-50); border-color: var(--amber-100);
+  color: var(--amber-100);
+}
 .search-box {
-  flex: 1;
-  min-width: 160px;
-  max-width: 320px;
-  position: relative;
+  flex: 1; min-width: 160px; max-width: 300px; position: relative;
 }
-
 .search-box input {
-  width: 100%;
-  padding: 10px 14px 10px 38px;
-  background: var(--cream);
-  border: 1px solid var(--border2);
+  width: 100%; padding: 9px 14px 9px 36px;
+  background: var(--cream); border: 0.5px solid var(--border2);
   border-radius: var(--radius);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  outline: none;
-  transition: border-color 0.2s;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink);
+  outline: none; transition: border-color 0.2s;
 }
-.search-box input:focus { border-color: var(--gold); }
-.search-box input::placeholder { color: rgba(90,58,74,0.4); }
-
-body.dark-mode .search-box input::placeholder { color: rgba(245,232,240,0.4); }
-
+html.dark-mode .search-box input { background: var(--paper2); }
+.search-box input:focus { border-color: var(--accent); }
+.search-box input::placeholder { color: rgba(58,37,53,0.35); }
+html.dark-mode .search-box input::placeholder { color: rgba(240,232,240,0.35); }
 .search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: rgba(90,58,74,0.35);
-  font-size: 15px;
-  pointer-events: none;
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  color: rgba(58,37,53,0.3); font-size: 14px; pointer-events: none;
 }
-
-body.dark-mode .search-icon {
-  color: rgba(245,232,240,0.35);
-}
-
+html.dark-mode .search-icon { color: rgba(240,232,240,0.3); }
 .filter-sel {
-  background: var(--cream);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  color: var(--ink);
-  outline: none;
-  cursor: pointer;
-  transition: border-color 0.2s;
+  background: var(--cream); border: 0.5px solid var(--border2);
+  border-radius: var(--radius); padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink);
+  outline: none; cursor: pointer; transition: border-color 0.2s;
 }
-.filter-sel:focus { border-color: var(--gold); }
+html.dark-mode .filter-sel { background: var(--paper2); }
+.filter-sel:focus { border-color: var(--accent); }
 
-/* CARDS */
+/* ── CARDS ── */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
 }
-
 .card {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-  animation: cardIn 0.3s ease both;
+  background: var(--cream); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.125rem;
+  transition: all 0.2s; position: relative; overflow: hidden;
+  animation: cardIn 0.3s ease both; cursor: pointer;
 }
-
+html.dark-mode .card { background: var(--paper2); }
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .card:hover { box-shadow: var(--shadow); border-color: var(--border2); transform: translateY(-2px); }
-
 .card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 8px; margin-bottom: 10px;
 }
-
 .card-badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 
+/* Badges — cada matéria num ramo fixo */
 .badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 9px;
-  border-radius: 20px;
-  white-space: nowrap;
-  letter-spacing: 0.02em;
+  display: inline-block; font-size: 11px; font-weight: 500;
+  padding: 3px 9px; border-radius: 20px; white-space: nowrap;
 }
-
-/* Badges de Matérias - Tons Pastéis Harmônicos */
-.badge-cf   { background: #f0e8f8; color: #a97ab5; }  /* Lilás pastel */
-.badge-civ  { background: #e8f3f3; color: #6ba8a8; }  /* Teal pastel */
-.badge-proc { background: #f5ede8; color: #6b4a5a; }  /* Bege suave */
-.badge-pen  { background: #fce8e3; color: #d97a6a; }  /* Vermelho pastel */
-.badge-adm  { background: #fef0e8; color: #d9a07a; }  /* Âmbar pastel */
-.badge-pt   { background: #e8f0f8; color: #7a9fd9; }  /* Azul pastel */
-.badge-pg   { background: #e8f3e8; color: #6ba87a; }  /* Verde pastel */
-
-body.dark-mode .badge-cf   { background: #4a3a50; color: #c9aadb; }
-body.dark-mode .badge-civ  { background: #3a4a4a; color: #8acaa0; }
-body.dark-mode .badge-proc { background: #4a3a45; color: #e8d9e8; }
-body.dark-mode .badge-pen  { background: #4a3a38; color: #d9a890; }
-body.dark-mode .badge-adm  { background: #4a3a30; color: #d4c480; }
-body.dark-mode .badge-pt   { background: #3a4a5a; color: #8abadb; }
-body.dark-mode .badge-pg   { background: #3a4a3a; color: #8aaa8a; }
+.badge-cf   { background: var(--purple-50); color: var(--purple-800); }
+.badge-civ  { background: var(--teal-50);   color: var(--teal-800);   }
+.badge-proc { background: var(--gray-50);   color: var(--gray-800);   }
+.badge-pen  { background: var(--red-50);    color: var(--red-800);    }
+.badge-adm  { background: var(--amber-50);  color: var(--amber-800);  }
+.badge-pt   { background: var(--blue-50);   color: var(--blue-800);   }
+.badge-pg   { background: var(--green-50);  color: var(--green-800);  }
 
 .dif-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 3px;
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 2px;
 }
-.dif-Alta   { background: #d97a6a; }  /* Vermelho pastel */
-.dif-Média  { background: #d9a07a; }  /* Âmbar pastel */
-.dif-Baixa  { background: #6ba87a; }  /* Verde pastel */
+.dif-Alta  { background: var(--danger); }
+.dif-Média { background: var(--warning); }
+.dif-Baixa { background: var(--success); }
 
 .card-menu { position: relative; }
 .menu-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: rgba(90,58,74,0.35);
-  font-size: 18px;
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: 6px;
-  transition: all 0.15s;
+  background: transparent; border: none; cursor: pointer;
+  color: rgba(58,37,53,0.3); font-size: 17px; line-height: 1;
+  padding: 2px 5px; border-radius: 5px; transition: all 0.15s;
 }
-body.dark-mode .menu-btn {
-  color: rgba(245,232,240,0.35);
-}
+html.dark-mode .menu-btn { color: rgba(240,232,240,0.3); }
 .menu-btn:hover { background: var(--paper2); color: var(--ink); }
-
 .dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 28px;
-  background: var(--cream);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow);
-  min-width: 120px;
-  z-index: 20;
-  overflow: hidden;
+  display: none; position: absolute; right: 0; top: 26px;
+  background: var(--cream); border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm); box-shadow: var(--shadow);
+  min-width: 120px; z-index: 20; overflow: hidden;
 }
+html.dark-mode .dropdown { background: var(--paper3); }
 .dropdown.open { display: block; }
 .dd-item {
-  display: block;
-  width: 100%;
-  text-align: left;
+  display: block; width: 100%; text-align: left;
   padding: 9px 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  color: var(--ink);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: background 0.15s;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: var(--ink); background: transparent;
+  border: none; cursor: pointer; transition: background 0.1s;
 }
 .dd-item:hover { background: var(--paper2); }
-.dd-item.danger { color: #d97a6a; }  /* Vermelho pastel */
-.dd-item.danger:hover { background: #fce8e3; }  /* Vermelho muito claro */
+.dd-item.danger { color: var(--danger); }
+.dd-item.danger:hover { background: var(--danger-bg); }
 
 .card-artigo {
-  font-size: 11px;
-  color: #d9a57a;  /* Ouro pastel */
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
+  font-size: 10px; font-weight: 600; color: var(--warning);
+  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 5px;
 }
-
 .card-enunciado {
-  font-size: 14px;
-  color: var(--ink);
-  line-height: 1.55;
-  margin-bottom: 10px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 14px; color: var(--ink); line-height: 1.55; margin-bottom: 10px;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
-
-.card-row {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-  font-size: 12px;
-  line-height: 1.4;
+.card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.tag {
+  background: var(--blue-50); color: var(--blue-800);
+  padding: 3px 8px; border-radius: 20px;
+  font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .02em;
 }
+html.dark-mode .tag { background: var(--blue-50); color: var(--blue-800); }
 
-.card-label { font-size: 11px; color: rgba(90,58,74,0.45); font-weight: 600; }
-body.dark-mode .card-label { color: rgba(245,232,240,0.45); }
-
-.card-val   { font-size: 12px; color: var(--ink); }
-
+.alt-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.alt-block { flex: 1; min-width: 100px; }
+.alt-label { font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 3px; }
+.alt-label.certa  { color: var(--success); }
+.alt-label.marquei { color: var(--danger); }
 .alt-chip {
-  display: inline-block;
-  background: #fef0e8;  /* Ouro muito claro */
-  color: #d9a57a;       /* Ouro pastel */
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 500;
+  display: inline-block; padding: 4px 8px; border-radius: var(--radius-xs);
+  font-size: 11px; font-weight: 500;
 }
+.alt-chip.certa   { background: var(--success-bg); color: var(--green-800); }
+.alt-chip.marquei { background: var(--danger-bg);  color: var(--red-800); }
 
 .motivo-chip {
-  background: #f5ede8;  /* Bege suave */
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 12px;
-  color: #6b4a5a;       /* Texto escuro suave */
-  margin-bottom: 8px;
-  display: inline-block;
+  background: var(--paper2); border-radius: var(--radius-xs);
+  padding: 4px 10px; font-size: 11px; color: rgba(58,37,53,0.6);
+  margin-bottom: 8px; display: inline-block;
 }
+html.dark-mode .motivo-chip { background: var(--paper3); color: rgba(240,232,240,0.6); }
 
-body.dark-mode .motivo-chip {
-  background: #4a3a45;
-  color: #e8d9e8;
-}
-
-.card-tags {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-
-.tag {
-  display: inline-block;
-  background: #e8f0f8;
-  color: #7a9fd9;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-body.dark-mode .tag {
-  background: #3a4a5a;
-  color: #8abadb;
-}
-
-.card-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 10px 0;
-}
-
-.acerto-row { display: flex; align-items: center; gap: 8px; }
+.card-divider { height: 0.5px; background: var(--border); margin: 10px 0; }
+.acerto-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .acerto-bar {
-  flex: 1;
-  height: 5px;
-  background: var(--paper3);
-  border-radius: 3px;
-  overflow: hidden;
+  flex: 1; height: 4px; background: var(--paper3); border-radius: 2px; overflow: hidden;
 }
-.acerto-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.acerto-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+.rev-tag { font-size: 11px; font-weight: 500; white-space: nowrap; }
+.rev-hoje { color: var(--danger); }
+.rev-prox { color: var(--warning); }
+.rev-ok   { color: var(--success); }
 
-.rev-tag {
-  font-size: 11px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.rev-hoje { color: #d97a6a; }  /* Vermelho pastel */
-.rev-prox { color: #d9a07a; }  /* Âmbar pastel */
-.rev-ok   { color: #6ba87a; }  /* Verde pastel */
-
-.card-actions { display: flex; gap: 6px; margin-top: 10px; }
+.card-actions { display: flex; gap: 6px; }
 .rev-btn {
-  flex: 1;
-  padding: 7px;
-  border: 1px solid var(--border2);
+  flex: 1; padding: 8px;
+  border: 0.5px solid var(--border2);
   border-radius: var(--radius-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; background: transparent;
+  min-height: 44px;
 }
-.rev-btn.acertei {
-  color: #6ba87a;  /* Verde pastel */
-  border-color: rgba(107,168,122,0.25);
-}
-.rev-btn.acertei:hover { background: #e8f3e8; }
-.rev-btn.errei {
-  color: #d97a6a;  /* Vermelho pastel */
-  border-color: rgba(217,122,106,0.25);
-}
-.rev-btn.rev-hoje-bg { background: #fce8e3; }  /* Vermelho muito claro */
+.rev-btn.acertei { color: var(--success); border-color: rgba(99,153,34,.25); }
+.rev-btn.acertei:hover { background: var(--success-bg); }
+.rev-btn.errei   { color: var(--danger);  border-color: rgba(226,75,74,.25); }
+.rev-btn.errei:hover   { background: var(--danger-bg); }
+.card-fonte { font-size: 10px; color: rgba(58,37,53,0.35); margin-top: 6px; }
+html.dark-mode .card-fonte { color: rgba(240,232,240,0.35); }
 
-/* EMPTY */
-.empty-state {
-  text-align: center;
-  padding: 5rem 2rem;
-  grid-column: 1 / -1;
-}
-.empty-icon { font-size: 56px; margin-bottom: 1rem; opacity: 0.4; }
+/* ── EMPTY ── */
+.empty-state { text-align: center; padding: 5rem 2rem; grid-column: 1 / -1; }
+.empty-icon  { font-size: 52px; margin-bottom: 1rem; opacity: 0.35; }
 .empty-state h3 {
   font-family: 'DM Serif Display', serif;
-  font-size: 22px;
-  color: var(--ink);
-  margin-bottom: 0.5rem;
+  font-size: 21px; color: var(--ink); margin-bottom: 0.5rem;
 }
-.empty-state p { font-size: 14px; color: rgba(74,44,58,0.5); }
+.empty-state p { font-size: 14px; color: rgba(58,37,53,0.45); }
+html.dark-mode .empty-state p { color: rgba(240,232,240,0.45); }
 
-body.dark-mode .empty-state p { color: rgba(252,232,239,0.5); }
+/* ── SPINNER ── */
+.loading { display: flex; align-items: center; justify-content: center; min-height: 200px; grid-column: 1/-1; }
+.spinner {
+  width: 30px; height: 30px;
+  border: 2px solid var(--border2); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* MODAL */
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink); color: #f0e0e8;
+  border-radius: var(--radius); padding: 11px 20px;
+  font-size: 13px; font-weight: 500;
+  z-index: 300; transition: transform 0.3s ease;
+  white-space: nowrap; box-shadow: var(--shadow-lg);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── MODAL ── */
 .modal-bg {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(10,10,20,0.55);
-  backdrop-filter: blur(4px);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,5,15,0.55); backdrop-filter: blur(4px);
+  z-index: 100; align-items: center; justify-content: center; padding: 1rem;
 }
 .modal-bg.open { display: flex; }
-
 .modal {
-  background: var(--cream);
-  border-radius: 20px;
-  width: min(580px, 100%);
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-lg);
-  animation: modalIn 0.25s ease both;
-  border: 1px solid var(--border);
+  background: var(--cream); border-radius: 18px;
+  width: min(560px, 100%); max-height: 90vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg); border: 0.5px solid var(--border);
+  animation: modalIn 0.22s ease both;
 }
-
+html.dark-mode .modal { background: var(--paper2); }
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
-
 .modal-header {
-  padding: 1.5rem 1.5rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 1.375rem 1.5rem 0;
+  display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 1.25rem;
 }
-
 .modal-header h2 {
   font-family: 'DM Serif Display', serif;
-  font-size: 22px;
-  color: var(--ink);
+  font-size: 21px; color: var(--ink);
 }
-
 .modal-close {
-  background: var(--paper2);
-  border: none;
-  border-radius: 50%;
-  width: 32px; height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  color: rgba(90,58,74,0.5);
-  transition: all 0.15s;
-  flex-shrink: 0;
+  background: var(--paper2); border: none; border-radius: 50%;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 17px; color: rgba(58,37,53,0.5);
+  transition: all 0.15s; flex-shrink: 0;
 }
+html.dark-mode .modal-close { background: var(--paper3); }
 .modal-close:hover { background: var(--paper3); color: var(--ink); }
+.modal-body { padding: 0 1.5rem 1rem; }
 
-.modal-body { padding: 0 1.5rem 1.5rem; }
+/* Stepper */
+.stepper {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 1.5rem; padding: 0 0.25rem;
+}
+.step-item {
+  display: flex; flex-direction: column; align-items: center;
+  flex: 1; cursor: pointer;
+}
+.step-circle {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--paper3); color: rgba(58,37,53,0.4);
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+  transition: all 0.25s; margin-bottom: 4px;
+}
+html.dark-mode .step-circle { background: var(--paper3); color: rgba(240,232,240,0.4); }
+.step-item.active .step-circle   { background: var(--ink); color: #f0e0e8; border-color: var(--ink); }
+.step-item.done .step-circle     { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+.step-label { font-size: 10px; font-weight: 500; color: rgba(58,37,53,0.4); text-align: center; white-space: nowrap; }
+html.dark-mode .step-label { color: rgba(240,232,240,0.4); }
+.step-item.active .step-label { color: var(--ink); }
+.step-item.done .step-label   { color: var(--success); }
+.step-line { flex: 1; height: 1.5px; background: var(--border2); margin: 0 4px; margin-bottom: 18px; }
+.step-line.done { background: var(--success); }
+
+.step-panel { display: none; }
+.step-panel.active { display: block; }
 
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
 .form-group { margin-bottom: 14px; }
 .form-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(90,58,74,0.6);
-  margin-bottom: 5px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  display: block; font-size: 11px; font-weight: 500;
+  color: rgba(58,37,53,0.5); margin-bottom: 5px;
+  letter-spacing: .04em; text-transform: uppercase;
 }
-
-body.dark-mode .form-group label {
-  color: rgba(245,232,240,0.6);
-}
-
+html.dark-mode .form-group label { color: rgba(240,232,240,0.5); }
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  background: var(--paper);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  outline: none;
-  transition: border-color 0.2s;
+  background: var(--paper); border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 10px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink);
+  outline: none; transition: border-color 0.2s;
 }
+html.dark-mode .form-group input,
+html.dark-mode .form-group select,
+html.dark-mode .form-group textarea { background: var(--paper3); }
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus { border-color: var(--gold); }
-
+.form-group textarea:focus { border-color: var(--accent); }
 .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
 
 .tags-input-container {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  padding: 8px;
-  background: var(--paper);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  min-height: 40px;
-  align-items: center;
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 8px; background: var(--paper); border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm); min-height: 42px; align-items: center;
 }
-
+html.dark-mode .tags-input-container { background: var(--paper3); }
 .tag-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: #fef0e8;  /* Ouro muito claro */
-  color: #d9a57a;       /* Ouro pastel */
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--amber-50); color: var(--amber-800);
+  padding: 3px 8px; border-radius: 20px; font-size: 12px; font-weight: 500;
 }
-
 .tag-remove {
-  background: none;
-  border: none;
-  color: var(--gold);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 0;
-  line-height: 1;
+  background: none; border: none; color: var(--warning);
+  cursor: pointer; font-size: 14px; padding: 0; line-height: 1;
 }
-
 .tags-input-container input {
-  flex: 1;
-  min-width: 100px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  font-size: 14px;
-  color: var(--ink);
-}
-
-.tags-input-container input:focus {
-  outline: none;
+  flex: 1; min-width: 100px; background: transparent;
+  border: none; padding: 0; font-size: 14px; color: var(--ink); outline: none;
 }
 
 .modal-footer {
-  padding: 1rem 1.5rem 1.5rem;
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  border-top: 1px solid var(--border);
+  padding: 1rem 1.5rem 1.375rem;
+  display: flex; gap: 8px; justify-content: space-between;
+  border-top: 0.5px solid var(--border);
 }
-
+.modal-footer-right { display: flex; gap: 8px; }
 .btn-cancel {
-  background: transparent;
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  padding: 10px 18px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: rgba(90,58,74,0.6);
-  cursor: pointer;
-  transition: all 0.15s;
+  background: transparent; border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 9px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: rgba(58,37,53,0.6); cursor: pointer; transition: all 0.15s;
 }
-body.dark-mode .btn-cancel {
-  color: rgba(245,232,240,0.6);
-}
+html.dark-mode .btn-cancel { color: rgba(240,232,240,0.6); }
 .btn-cancel:hover { background: var(--paper2); }
-
 .btn-save {
-  background: var(--ink);
-  color: var(--gold2);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 10px 22px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
+  background: var(--ink); color: #f0e0e8;
+  border: none; border-radius: var(--radius-sm);
+  padding: 9px 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
 }
 .btn-save:hover { background: var(--ink2); }
 .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* LOADING */
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  grid-column: 1 / -1;
+.btn-save.saving {
+  display: flex; align-items: center; gap: 8px;
 }
-.spinner {
-  width: 32px; height: 32px;
-  border: 2px solid var(--border2);
-  border-top-color: var(--accent);
+.btn-save.saving::before {
+  content: '';
+  width: 14px; height: 14px;
+  border: 2px solid rgba(240,224,232,0.3);
+  border-top-color: #f0e0e8;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* TOAST */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--ink);
-  color: var(--gold2);
-  border-radius: var(--radius);
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  z-index: 200;
-  transition: transform 0.3s ease;
-  white-space: nowrap;
-  box-shadow: var(--shadow-lg);
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-/* MODO SIMULADO */
-#simulado-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--paper);
-  z-index: 1000;
-  display: none;
-  padding: 2rem;
-  overflow-y: auto;
+  flex-shrink: 0;
 }
 
-.simulado-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-@media (max-width: 600px) {
-  .form-grid-2 { grid-template-columns: 1fr; }
-  .cards-grid { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .navbar { padding: 0 1rem; }
-  .nav-brand span { display: none; }
-}
-
-/* LEMBRETE DE REVISÃO NA TELA DE LOGIN */
-.login-revisao {
-  margin-top: 1rem;
-  padding: 12px 16px;
-  background: var(--red-light);
-  border: 1px solid rgba(192,57,43,0.2);
-  border-radius: var(--radius);
-  font-size: 13px;
-  color: var(--red);
-  font-weight: 500;
-  display: none;
-}
-
-/* GRÁFICO */
+/* ── GRÁFICO ── */
 .chart-card {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  background: var(--cream); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem;
 }
+html.dark-mode .chart-card { background: var(--paper2); }
 .chart-card h3 {
   font-family: 'DM Serif Display', serif;
-  font-size: 18px;
-  margin-bottom: 1rem;
-  color: var(--ink);
+  font-size: 17px; margin-bottom: 1rem; color: var(--ink);
 }
-.chart-tabs { display: flex; gap: 8px; margin-bottom: 1rem; }
+.chart-tabs { display: flex; gap: 6px; }
 .chart-tab {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--border2);
+  padding: 5px 13px; border-radius: 20px;
+  border: 0.5px solid var(--border2);
   background: transparent;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  cursor: pointer;
-  color: var(--ink);
-  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  cursor: pointer; color: var(--ink); transition: all 0.2s;
 }
-.chart-tab.active { background: var(--ink); color: var(--gold2); border-color: var(--ink); }
+.chart-tab.active { background: var(--ink); color: #f0e0e8; border-color: var(--ink); }
 
-/* MODO FOCADO */
-#foco-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--ink);
-  z-index: 1000;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-.foco-card {
-  background: var(--cream);
-  border-radius: 20px;
-  padding: 2.5rem;
-  max-width: 600px;
-  width: 100%;
-  text-align: center;
-}
-.foco-badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 20px;
-  background: var(--gold-light);
-  color: var(--gold);
-  margin-bottom: 1rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.foco-enunciado { font-size: 18px; line-height: 1.6; color: var(--ink); margin-bottom: 1.5rem; }
-.foco-progress { font-size: 12px; color: rgba(74,44,58,0.4); margin-bottom: 1.5rem; }
-.foco-actions { display: flex; gap: 10px; justify-content: center; }
-.foco-btn {
-  flex: 1;
-  max-width: 160px;
-  padding: 12px;
-  border-radius: var(--radius);
-  border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.foco-btn.ver { background: #5a3a4a; color: #e8c4a0; }
-.foco-btn.acertei { background: #e8f3e8; color: #6ba87a; }
-.foco-btn.errei { background: #fce8e3; color: #d97a6a; }
-.foco-gabarito {
-  background: var(--paper2);
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin-bottom: 1rem;
-  text-align: left;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--ink);
-  display: none;
-}
-.foco-sair {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(252,232,239,0.1);
-  border: 1px solid rgba(252,232,239,0.2);
-  color: rgba(252,232,239,0.7);
-  border-radius: var(--radius-sm);
-  padding: 8px 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-/* BUSCA AVANÇADA */
+/* ── FILTROS AVANÇADOS ── */
 .filtros-avancados {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-bottom: 1rem;
-  display: none;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
+  background: var(--cream); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.25rem;
+  margin-bottom: 1rem; display: none; gap: 8px;
+  flex-wrap: wrap; align-items: center;
 }
+html.dark-mode .filtros-avancados { background: var(--paper2); }
 .filtros-avancados.open { display: flex; }
 .filtro-tag-btn {
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid var(--border2);
-  background: transparent;
-  font-size: 12px;
-  cursor: pointer;
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  transition: all 0.15s;
+  padding: 5px 12px; border-radius: 20px;
+  border: 0.5px solid var(--border2);
+  background: transparent; font-size: 12px;
+  cursor: pointer; color: var(--ink);
+  font-family: 'DM Sans', sans-serif; transition: all 0.15s;
 }
-.filtro-tag-btn.active { background: #e8f0f8; border-color: #7a9fd9; color: #7a9fd9; }
-.btn-instalar {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  background: #d9a57a;  /* Ouro pastel */
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  padding: 10px 18px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+.filtro-tag-btn.active { background: var(--blue-50); border-color: var(--info); color: var(--blue-800); }
+
+/* ── MODO FOCADO ── */
+#foco-screen {
+  position: fixed; inset: 0; background: var(--ink);
+  z-index: 1000; display: none; flex-direction: column;
+  align-items: center; justify-content: center; padding: 2rem;
+}
+.foco-card {
+  background: var(--cream); border-radius: 18px;
+  padding: 2.5rem; max-width: 580px; width: 100%; text-align: center;
+}
+html.dark-mode .foco-card { background: var(--paper2); }
+.foco-badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 4px 12px; border-radius: 20px;
+  background: var(--amber-50); color: var(--amber-800);
+  margin-bottom: 1rem; letter-spacing: .05em; text-transform: uppercase;
+}
+.foco-enunciado { font-size: 18px; line-height: 1.6; color: var(--ink); margin-bottom: 1.5rem; }
+.foco-progress  { font-size: 12px; color: rgba(58,37,53,0.4); margin-bottom: 1rem; }
+html.dark-mode .foco-progress { color: rgba(240,232,240,0.4); }
+.foco-gabarito {
+  background: var(--paper2); border-radius: var(--radius);
+  padding: 1rem; margin-bottom: 1rem; text-align: left;
+  font-size: 14px; line-height: 1.6; color: var(--ink); display: none;
+}
+.foco-actions { display: flex; gap: 10px; justify-content: center; }
+.foco-btn {
+  flex: 1; max-width: 160px; padding: 12px;
+  border-radius: var(--radius); border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; min-height: 44px;
+}
+.foco-btn.ver    { background: var(--ink2); color: #f0e0e8; }
+.foco-btn.acertei { background: var(--success-bg); color: var(--green-800); }
+.foco-btn.errei  { background: var(--danger-bg);  color: var(--red-800); }
+.foco-sair {
+  position: fixed; top: 1rem; right: 1rem;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7); border-radius: var(--radius-sm);
+  padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer;
+}
+
+/* ── SIMULADO ── */
+#simulado-screen {
+  position: fixed; inset: 0; background: var(--paper);
+  z-index: 1000; display: none; padding: 2rem; overflow-y: auto;
+}
+.simulado-container { max-width: 780px; margin: 0 auto; }
+
+/* ── CONFIRM MODAL ── */
+#confirm-modal-bg { cursor: default; }
+
+/* ── VER MODAL ── */
+.ver-field { margin-bottom: 14px; }
+.ver-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .04em; color: rgba(58,37,53,0.4); margin-bottom: 4px;
+}
+html.dark-mode .ver-label { color: rgba(240,232,240,0.4); }
+.ver-val { font-size: 14px; color: var(--ink); line-height: 1.6; white-space: pre-wrap; }
+
+/* ── DRAWER MOBILE ── */
+.drawer-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,5,15,0.45); backdrop-filter: blur(3px);
+  z-index: 80;
+}
+.drawer-overlay.open { display: block; }
+.drawer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--cream); border-radius: 20px 20px 0 0;
+  z-index: 90; padding: 1.25rem 1.25rem 2.5rem;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+  max-height: 85vh; overflow-y: auto;
+}
+html.dark-mode .drawer { background: var(--paper2); }
+.drawer.open { transform: translateY(0); }
+.drawer-handle {
+  width: 40px; height: 4px; background: var(--border2);
+  border-radius: 2px; margin: 0 auto 1.25rem;
+}
+.drawer h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; margin-bottom: 1.25rem; color: var(--ink);
+}
+.drawer-field { margin-bottom: 1rem; }
+.drawer-field label {
+  display: block; font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: rgba(58,37,53,0.45); margin-bottom: 6px;
+}
+html.dark-mode .drawer-field label { color: rgba(240,232,240,0.45); }
+.drawer-field select,
+.drawer-field input[type="text"] {
+  width: 100%;
+  background: var(--paper); border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 11px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink);
+  outline: none;
+}
+html.dark-mode .drawer-field select,
+html.dark-mode .drawer-field input[type="text"] { background: var(--paper3); }
+.drawer-btns { display: flex; gap: 8px; margin-top: 1.25rem; }
+.drawer-apply {
+  flex: 1; background: var(--ink); color: #f0e0e8;
+  border: none; border-radius: var(--radius); padding: 13px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; min-height: 44px;
+}
+.drawer-clear {
+  background: transparent; border: 0.5px solid var(--border2);
+  border-radius: var(--radius); padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: var(--ink); cursor: pointer; min-height: 44px;
+}
+
+/* ── CONTADOR ── */
+#contador-questoes { font-size: 12px; color: rgba(58,37,53,0.4); margin-bottom: .75rem; margin-top: -.25rem; }
+html.dark-mode #contador-questoes { color: rgba(240,232,240,0.4); }
+
+/* ── EXPORT ── */
+.export-menu {
+  position: relative;
+}
+.export-dropdown {
+  display: none; position: absolute; right: 0; top: calc(100% + 6px);
+  background: var(--cream); border: 0.5px solid var(--border2);
+  border-radius: var(--radius-sm); box-shadow: var(--shadow);
+  min-width: 150px; z-index: 20; overflow: hidden;
+}
+html.dark-mode .export-dropdown { background: var(--paper3); }
+.export-dropdown.open { display: block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .cards-grid  { grid-template-columns: 1fr; }
+  .stats-row   { grid-template-columns: repeat(2, 1fr); }
+  .navbar      { padding: 0 1rem; }
+  .toolbar .hide-mobile { display: none; }
+  .main { padding: 1.25rem 1rem 6rem; }
 }
 </style>
 </head>
@@ -1128,100 +846,95 @@ body.dark-mode .btn-cancel {
   <div class="login-card">
     <div class="login-logo">📖</div>
     <h1>Caderno de Erros</h1>
-    <p>Registre, revise e supere seus erros.<br>Seus dados sincronizados em qualquer dispositivo.</p>
+    <p>Registre, revise e supere seus erros.<br>Dados sincronizados em qualquer dispositivo.</p>
     <button class="btn-google" onclick="signIn()">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Entrar com Google
     </button>
     <p class="login-note">Seus dados ficam seguros na sua conta Google.</p>
-    <div class="login-revisao" id="login-revisao-badge"></div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app">
+<div id="app" style="display:none">
   <nav class="navbar">
     <div class="nav-brand">
       <span>📖</span>
       Caderno de Erros
     </div>
     <div class="nav-right">
-      <button id="btn-instalar" class="btn-instalar" onclick="installApp()" title="Instalar app">📲 Instalar</button>
-      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">🌙</button>
+      <button id="btn-instalar" onclick="installApp()">📲 Instalar</button>
+      <button class="nav-btn" onclick="toggleDarkMode()" id="dark-btn">🌙</button>
       <div id="nav-avatar" class="nav-avatar-placeholder">?</div>
-      <button class="btn-logout" onclick="signOut()">Sair</button>
+      <button class="nav-btn" onclick="signOut()">Sair</button>
     </div>
   </nav>
 
   <div class="main">
     <div class="stats-row">
-      <div class="stat">
-        <div class="stat-num" id="s-total">0</div>
-        <div class="stat-lbl">questões registradas</div>
-      </div>
-      <div class="stat danger">
-        <div class="stat-num" id="s-hoje">0</div>
-        <div class="stat-lbl">revisar hoje</div>
-      </div>
-      <div class="stat success">
-        <div class="stat-num" id="s-taxa">—</div>
-        <div class="stat-lbl">taxa de acerto</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num" id="s-mats">0</div>
-        <div class="stat-lbl">matérias</div>
-      </div>
+      <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">questões</div></div>
+      <div class="stat danger"><div class="stat-num" id="s-hoje">0</div><div class="stat-lbl">revisar hoje</div></div>
+      <div class="stat success"><div class="stat-num" id="s-taxa">—</div><div class="stat-lbl">taxa de acerto</div></div>
+      <div class="stat info"><div class="stat-num" id="s-mats">0</div><div class="stat-lbl">matérias</div></div>
     </div>
 
     <div class="toolbar">
-      <button class="btn-add" onclick="abrirModal()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+      <button class="btn-primary" onclick="abrirModal()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         Registrar erro
       </button>
-      <button class="btn-add" style="background: var(--gold); color: #fff;" onclick="iniciarSimulado()">
-        ⚡ Revisar Agora
-      </button>
-      <button class="btn-add" style="background: var(--teal); color: #fff;" onclick="iniciarFoco()">
-        🎯 Modo Focado
-      </button>
-      <div class="search-box">
+      <button class="btn-accent" onclick="iniciarSimulado()">⚡ Revisar agora</button>
+      <button class="btn-outline hide-mobile" onclick="iniciarFoco()">🎯 Focado</button>
+
+      <div class="search-box hide-mobile">
         <span class="search-icon">🔍</span>
-        <input type="text" id="busca" placeholder="Buscar questão, artigo..." oninput="renderCards()">
+        <input type="text" id="busca" placeholder="Buscar questão, artigo..." oninput="debouncedRender()">
       </div>
-      <select class="filter-sel" id="filtro-mat" onchange="renderCards()">
+
+      <!-- Filtros desktop -->
+      <select class="filter-sel hide-mobile" id="filtro-mat" onchange="renderCards()">
         <option value="">Todas as matérias</option>
       </select>
-      <select class="filter-sel" id="filtro-dif" onchange="renderCards()">
+      <select class="filter-sel hide-mobile" id="filtro-dif" onchange="renderCards()">
         <option value="">Qualquer dificuldade</option>
-        <option>Alta</option>
-        <option>Média</option>
-        <option>Baixa</option>
+        <option>Alta</option><option>Média</option><option>Baixa</option>
       </select>
-      <button class="btn-add" style="background:transparent;border:1px solid var(--border2);color:var(--ink)" onclick="toggleFiltrosAvancados()" id="btn-filtros-av">🏷️ Tags</button>
-      <button class="btn-add" style="background:transparent;border:1px solid var(--border2);color:var(--ink)" onclick="toggleChart()" id="btn-chart">📊 Gráfico</button>
-      <select class="filter-sel" id="filtro-rev" onchange="renderCards()">
+      <select class="filter-sel hide-mobile" id="filtro-rev" onchange="renderCards()">
         <option value="">Todas</option>
         <option value="hoje">Revisar hoje</option>
       </select>
-      <select class="filter-sel" id="filtro-ordem" onchange="renderCards()">
+      <select class="filter-sel hide-mobile" id="filtro-ordem" onchange="renderCards()">
         <option value="recente">Mais recentes</option>
         <option value="revisao">Próx. revisão</option>
         <option value="dif-alta">Dificuldade ↑</option>
         <option value="dif-baixa">Dificuldade ↓</option>
         <option value="acerto">Menor acerto</option>
       </select>
-    </div>
-    <div style="font-size:12px;color:rgba(74,44,58,0.45);margin-bottom:0.75rem;margin-top:-0.25rem" id="contador-questoes"></div>
 
+      <button class="btn-outline hide-mobile" id="btn-filtros-av" onclick="toggleFiltrosAvancados()">🏷️ Tags</button>
+      <button class="btn-outline hide-mobile" id="btn-chart" onclick="toggleChart()">📊 Gráfico</button>
+
+      <!-- Botão filtrar mobile -->
+      <button class="btn-outline" id="btn-filtrar-mobile" onclick="abrirDrawer()" style="display:none">
+        🔽 Filtrar
+      </button>
+
+      <!-- Export -->
+      <div class="export-menu">
+        <button class="btn-outline" onclick="toggleExportMenu()">⬇️ Exportar</button>
+        <div class="export-dropdown" id="export-dropdown">
+          <button class="dd-item" onclick="exportarCSV()">📄 CSV</button>
+          <button class="dd-item" onclick="exportarJSON()">🗂️ JSON</button>
+          <button class="dd-item" onclick="exportarMarkdown()">📝 Markdown</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="contador-questoes"></div>
+
+    <!-- Gráfico -->
     <div class="chart-card" id="chart-section" style="display:none">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px">
         <h3>📊 Evolução de Acertos</h3>
         <div class="chart-tabs">
           <button class="chart-tab active" onclick="switchChart('semana',this)">Semana</button>
@@ -1229,23 +942,65 @@ body.dark-mode .btn-cancel {
           <button class="chart-tab" onclick="switchChart('mat',this)">Matérias</button>
         </div>
       </div>
-      <canvas id="myChart" height="120"></canvas>
+      <canvas id="myChart" height="110"></canvas>
     </div>
 
+    <!-- Filtros avançados -->
     <div class="filtros-avancados" id="filtros-avancados">
-      <span style="font-size:12px;font-weight:600;color:rgba(74,44,58,0.5)">TAGS:</span>
+      <span style="font-size:11px;font-weight:600;color:rgba(58,37,53,0.45);text-transform:uppercase;letter-spacing:.04em">Tags:</span>
       <div id="filtro-tags-lista" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
 
     <div class="cards-grid" id="cards-container">
-      <div class="loading" style="display: flex; align-items: center; justify-content: center; min-height: 200px; grid-column: 1 / -1;">
-        <div class="spinner" style="width: 32px; height: 32px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite;"></div>
-      </div>
+      <div class="loading"><div class="spinner"></div></div>
     </div>
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- DRAWER MOBILE FILTROS -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="fecharDrawer()"></div>
+<div class="drawer" id="drawer-filtros">
+  <div class="drawer-handle"></div>
+  <h3>Filtros</h3>
+  <div class="drawer-field">
+    <label>Buscar</label>
+    <input type="text" id="d-busca" placeholder="Buscar questão...">
+  </div>
+  <div class="drawer-field">
+    <label>Matéria</label>
+    <select id="d-filtro-mat"><option value="">Todas as matérias</option></select>
+  </div>
+  <div class="drawer-field">
+    <label>Dificuldade</label>
+    <select id="d-filtro-dif">
+      <option value="">Qualquer dificuldade</option>
+      <option>Alta</option><option>Média</option><option>Baixa</option>
+    </select>
+  </div>
+  <div class="drawer-field">
+    <label>Revisão</label>
+    <select id="d-filtro-rev">
+      <option value="">Todas</option>
+      <option value="hoje">Revisar hoje</option>
+    </select>
+  </div>
+  <div class="drawer-field">
+    <label>Ordenar</label>
+    <select id="d-filtro-ordem">
+      <option value="recente">Mais recentes</option>
+      <option value="revisao">Próx. revisão</option>
+      <option value="dif-alta">Dificuldade ↑</option>
+      <option value="dif-baixa">Dificuldade ↓</option>
+      <option value="acerto">Menor acerto</option>
+    </select>
+  </div>
+  <div class="drawer-btns">
+    <button class="drawer-clear" onclick="limparFiltros()">Limpar</button>
+    <button class="drawer-apply" onclick="aplicarDrawer()">Aplicar filtros</button>
+  </div>
+</div>
+
+<!-- MODAL PRINCIPAL (formulário em 3 etapas) -->
 <div class="modal-bg" id="modal-bg" onclick="bgClick(event)">
   <div class="modal">
     <div class="modal-header">
@@ -1253,94 +1008,163 @@ body.dark-mode .btn-cancel {
       <button class="modal-close" onclick="fecharModal()">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-grid-2">
+
+      <!-- Stepper -->
+      <div class="stepper" id="stepper">
+        <div class="step-item active" id="step-item-1" onclick="goStep(1)">
+          <div class="step-circle" id="step-circle-1">1</div>
+          <div class="step-label">Questão</div>
+        </div>
+        <div class="step-line" id="step-line-1"></div>
+        <div class="step-item" id="step-item-2" onclick="goStep(2)">
+          <div class="step-circle" id="step-circle-2">2</div>
+          <div class="step-label">Alternativas</div>
+        </div>
+        <div class="step-line" id="step-line-2"></div>
+        <div class="step-item" id="step-item-3" onclick="goStep(3)">
+          <div class="step-circle" id="step-circle-3">3</div>
+          <div class="step-label">Análise</div>
+        </div>
+      </div>
+
+      <!-- Etapa 1: Questão -->
+      <div class="step-panel active" id="panel-1">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="f-mat">Matéria *</label>
+            <select id="f-mat">
+              <option value="">Selecione...</option>
+              <option>Direito Constitucional</option>
+              <option>Direito Civil</option>
+              <option>Direito Processual Civil</option>
+              <option>Direito Penal</option>
+              <option>Direito Processual Penal</option>
+              <option>Direito Administrativo</option>
+              <option>Direito Tributário</option>
+              <option>Direito do Trabalho</option>
+              <option>Direito Empresarial</option>
+              <option>Legislação Específica TJ-SP</option>
+              <option>Estatuto da Magistratura</option>
+              <option>Português / Interpretação</option>
+              <option>Raciocínio Lógico</option>
+              <option>Outra</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-artigo">Tópico / Artigo</label>
+            <input type="text" id="f-artigo" placeholder="Ex: Art. 5º, §3º CF">
+          </div>
+        </div>
         <div class="form-group">
-          <label>Matéria *</label>
-          <select id="f-mat">
-            <option value="">Selecione...</option>
-            <option>Direito Constitucional</option>
-            <option>Direito Civil</option>
-            <option>Direito Processual Civil</option>
-            <option>Direito Penal</option>
-            <option>Direito Processual Penal</option>
-            <option>Direito Administrativo</option>
-            <option>Direito Tributário</option>
-            <option>Direito do Trabalho</option>
-            <option>Direito Empresarial</option>
-            <option>Legislação Específica TJ-SP</option>
-            <option>Estatuto da Magistratura</option>
-            <option>Português / Interpretação</option>
-            <option>Raciocínio Lógico</option>
-            <option>Outra</option>
+          <label for="f-enunciado">Enunciado resumido *</label>
+          <textarea id="f-enunciado" placeholder="Descreva brevemente a questão ou cole o trecho principal..."></textarea>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="f-dif">Dificuldade</label>
+            <select id="f-dif">
+              <option>Alta</option>
+              <option selected>Média</option>
+              <option>Baixa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-fonte">Fonte / Banca</label>
+            <input type="text" id="f-fonte" placeholder="Ex: VUNESP 2023, TJ-SP">
+          </div>
+        </div>
+      </div>
+
+      <!-- Etapa 2: Alternativas -->
+      <div class="step-panel" id="panel-2">
+        <div class="form-group">
+          <label for="f-correta">Alternativa correta</label>
+          <textarea id="f-correta" placeholder="Digite a alternativa correta completa..." style="min-height:70px"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="f-marquei">Alternativa que marquei</label>
+          <textarea id="f-marquei" placeholder="Digite a alternativa que você marcou..." style="min-height:70px"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Etiquetas (Tags)</label>
+          <div class="tags-input-container" id="tags-container">
+            <input type="text" id="f-tags-input" placeholder="Digite uma etiqueta e pressione Enter..." onkeydown="handleTagInput(event)">
+          </div>
+          <small style="color:rgba(58,37,53,0.45);display:block;margin-top:4px;font-size:12px">Ex: Pegadinha, Jurisprudência, Lei Seca, Revisar Urgente</small>
+        </div>
+      </div>
+
+      <!-- Etapa 3: Análise -->
+      <div class="step-panel" id="panel-3">
+        <div class="form-group">
+          <label for="f-motivo">Por que errei</label>
+          <select id="f-motivo">
+            <option value="">Selecione o motivo...</option>
+            <option>Desconhecia o tema</option>
+            <option>Confundi institutos similares</option>
+            <option>Erro de interpretação de texto</option>
+            <option>Pegadinha / inversão de conceito</option>
+            <option>Não lembrava o artigo exato</option>
+            <option>Doutrina divergente / exceção</option>
+            <option>Falta de atenção / distração</option>
+            <option>Nunca estudei o assunto</option>
+            <option>Sabia, mas me confundi</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Tópico / Artigo</label>
-          <input type="text" id="f-artigo" placeholder="Ex: Art. 5º, §3º CF">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Enunciado resumido *</label>
-        <textarea id="f-enunciado" placeholder="Descreva brevemente a questão ou cole o trecho principal..."></textarea>
-      </div>
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Alternativa correta</label>
-          <textarea id="f-correta" placeholder="Digite a alternativa correta completa..." style="min-height: 60px;"></textarea>
+          <label for="f-obs">Observação / detalhe do erro</label>
+          <textarea id="f-obs" placeholder="Ex: Confundi prazo de 15 com 30 dias. Art. 1.015 CPC é taxativo..."></textarea>
         </div>
         <div class="form-group">
-          <label>Alternativa que marquei</label>
-          <textarea id="f-marquei" placeholder="Digite a alternativa que você marcou..." style="min-height: 60px;"></textarea>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Etiquetas (Tags)</label>
-        <div class="tags-input-container" id="tags-container">
-          <input type="text" id="f-tags-input" placeholder="Digite uma etiqueta e pressione Enter..." onkeydown="handleTagInput(event)">
-        </div>
-        <small style="color: rgba(74,44,58,0.5); display: block; margin-top: 4px;">Ex: Pegadinha, Jurisprudência, Lei Seca, Revisar Urgente</small>
-      </div>
-      <div class="form-group">
-        <label>Por que errei</label>
-        <select id="f-motivo">
-          <option value="">Selecione o motivo...</option>
-          <option>Desconhecia o tema</option>
-          <option>Confundi institutos similares</option>
-          <option>Erro de interpretação de texto</option>
-          <option>Pegadinha / inversão de conceito</option>
-          <option>Não lembrava o artigo exato</option>
-          <option>Doutrina divergente / exceção</option>
-          <option>Falta de atenção / distração</option>
-          <option>Nunca estudei o assunto</option>
-          <option>Sabia, mas me confundi</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Observação / detalhe do erro</label>
-        <textarea id="f-obs" placeholder="Ex: Confundi prazo de 15 com 30 dias. Art. 1.015 CPC é taxativo..."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Como fixar / o que revisar</label>
-        <textarea id="f-fixar" placeholder="Ex: Revisar súmula 309 STJ, fazer mais questões sobre prazos..."></textarea>
-      </div>
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Dificuldade</label>
-          <select id="f-dif">
-            <option>Alta</option>
-            <option selected>Média</option>
-            <option>Baixa</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Fonte / Banca</label>
-          <input type="text" id="f-fonte" placeholder="Ex: VUNESP 2023, TJ-SP">
+          <label for="f-fixar">Como fixar / o que revisar</label>
+          <textarea id="f-fixar" placeholder="Ex: Revisar súmula 309 STJ, fazer mais questões sobre prazos..."></textarea>
         </div>
       </div>
     </div>
+
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-      <button class="btn-save" id="btn-salvar" onclick="salvar()">Salvar questão</button>
+      <button class="btn-cancel" id="btn-step-back" onclick="stepBack()" style="display:none">← Voltar</button>
+      <div class="modal-footer-right">
+        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-save" id="btn-avancar" onclick="stepNext()">Avançar →</button>
+        <button class="btn-save" id="btn-salvar" onclick="salvar()" style="display:none">Salvar questão</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VER ERRO -->
+<div class="modal-bg" id="ver-modal-bg" onclick="bgClickVer(event)">
+  <div class="modal" style="width:min(660px,100%)">
+    <div class="modal-header">
+      <h2 id="ver-modal-titulo">Questão</h2>
+      <button class="modal-close" onclick="fecharVerModal()">×</button>
+    </div>
+    <div class="modal-body" id="ver-modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="fecharVerModal()">Fechar</button>
+      <div class="modal-footer-right">
+        <button class="btn-save" id="ver-modal-editar-btn">✏️ Editar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-bg" id="confirm-modal-bg">
+  <div class="modal" style="width:min(400px,100%)">
+    <div class="modal-header">
+      <h2>Remover questão</h2>
+      <button class="modal-close" onclick="fecharConfirm()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:15px;line-height:1.6;color:var(--ink)">Tem certeza? Esta ação não pode ser desfeita.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="fecharConfirm()">Cancelar</button>
+      <div class="modal-footer-right">
+        <button class="btn-save" id="confirm-deletar-btn" style="background:var(--danger)">🗑️ Remover</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1359,43 +1183,11 @@ body.dark-mode .btn-cancel {
   </div>
 </div>
 
-<!-- MODAL CONFIRMAR EXCLUSÃO -->
-<div class="modal-bg" id="confirm-modal-bg">
-  <div class="modal" style="width:min(420px,100%)">
-    <div class="modal-header">
-      <h2>Remover questão</h2>
-      <button class="modal-close" onclick="fecharConfirm()">×</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:15px;line-height:1.6;color:var(--ink)">Tem certeza que quer remover esta questão do caderno? Essa ação não pode ser desfeita.</p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="fecharConfirm()">Cancelar</button>
-      <button class="btn-save" id="confirm-deletar-btn" style="background:var(--red)">🗑️ Remover</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL VER ERRO -->
-<div class="modal-bg" id="ver-modal-bg" onclick="bgClickVer(event)">
-  <div class="modal" style="width:min(680px,100%)">
-    <div class="modal-header">
-      <h2 class="modal-titulo" id="ver-modal-titulo">Ver questão</h2>
-      <button class="modal-close" onclick="fecharVerModal()">✕</button>
-    </div>
-    <div class="modal-body" id="ver-modal-body"></div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="fecharVerModal()">Fechar</button>
-      <button class="btn-save" id="ver-modal-editar-btn">✏️ Editar</button>
-    </div>
-  </div>
-</div>
-
 <!-- SIMULADO -->
 <div id="simulado-screen">
   <div class="simulado-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-      <h2 style="font-family: 'DM Serif Display', serif; font-size: 24px;">Revisão Ativa</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
+      <h2 style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink)">Revisão Ativa</h2>
       <button class="btn-cancel" onclick="fecharSimulado()">Sair</button>
     </div>
     <div id="simulado-content"></div>
@@ -1406,10 +1198,13 @@ body.dark-mode .btn-cancel {
 
 <!-- FIREBASE -->
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged, signInWithRedirect, getRedirectResult }
+import { initializeApp }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut,
+         onAuthStateChanged, signInWithRedirect, getRedirectResult }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp }
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc,
+         doc, onSnapshot, query, orderBy, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -1422,85 +1217,76 @@ const firebaseConfig = {
   measurementId: "G-754C5E08CJ"
 };
 
-const app = initializeApp(firebaseConfig);
+const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db   = getFirestore(app);
 
-let erros = [];
-let editId = null;
-let unsubscribe = null;
-let currentUser = null;
-let currentTags = [];
+let erros = [], editId = null, unsubscribe = null, currentUser = null, currentTags = [];
 
 const MATS = {
-  "Direito Constitucional":"badge-cf",
-  "Direito Civil":"badge-civ",
-  "Direito Processual Civil":"badge-proc",
-  "Direito Penal":"badge-pen",
-  "Direito Processual Penal":"badge-pen",
-  "Direito Administrativo":"badge-adm",
-  "Direito Tributário":"badge-adm",
-  "Direito do Trabalho":"badge-pt",
-  "Direito Empresarial":"badge-pt",
-  "Legislação Específica TJ-SP":"badge-pg",
-  "Estatuto da Magistratura":"badge-pg",
-  "Português / Interpretação":"badge-proc",
-  "Raciocínio Lógico":"badge-proc",
-  "Outra":"badge-proc"
+  "Direito Constitucional":      "badge-cf",
+  "Direito Civil":               "badge-civ",
+  "Direito Processual Civil":    "badge-proc",
+  "Direito Penal":               "badge-pen",
+  "Direito Processual Penal":    "badge-pen",
+  "Direito Administrativo":      "badge-adm",
+  "Direito Tributário":          "badge-adm",
+  "Direito do Trabalho":         "badge-pt",
+  "Direito Empresarial":         "badge-pt",
+  "Legislação Específica TJ-SP": "badge-pg",
+  "Estatuto da Magistratura":    "badge-pg",
+  "Português / Interpretação":   "badge-proc",
+  "Raciocínio Lógico":           "badge-proc",
+  "Outra":                       "badge-proc"
 };
 
-// DARK MODE
+/* ─── DARK MODE ─── */
 window.toggleDarkMode = () => {
-  document.body.classList.toggle('dark-mode');
-  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+  document.documentElement.classList.toggle('dark-mode');
+  const isDark = document.documentElement.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDark);
+  document.getElementById('dark-btn').textContent = isDark ? '☀️' : '🌙';
+  if(myChart) renderChart();
+};
+// Sincronizar ícone ao carregar
+window.addEventListener('DOMContentLoaded', () => {
+  const isDark = document.documentElement.classList.contains('dark-mode');
+  const btn = document.getElementById('dark-btn');
+  if(btn) btn.textContent = isDark ? '☀️' : '🌙';
+
+  // Mostrar botão filtrar mobile
+  const isMobile = () => window.innerWidth <= 600;
+  const checkMobile = () => {
+    const el = document.getElementById('btn-filtrar-mobile');
+    if(el) el.style.display = isMobile() ? 'flex' : 'none';
+  };
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+});
+
+/* ─── DEBOUNCE busca ─── */
+let searchTimer;
+window.debouncedRender = () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(renderCards, 200);
 };
 
-// Carregar preferência de dark mode ao iniciar
-if (localStorage.getItem('darkMode') === 'true') {
-  document.body.classList.add('dark-mode');
-}
-
-// AUTH
+/* ─── AUTH ─── */
 window.signIn = async () => {
   try {
     const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (popupError) {
-      if (popupError.code === 'auth/popup-blocked') {
-        await signInWithRedirect(auth, provider);
-      } else {
-        throw popupError;
-      }
+    try { await signInWithPopup(auth, provider); }
+    catch(e) {
+      if(e.code === 'auth/popup-blocked') await signInWithRedirect(auth, provider);
+      else throw e;
     }
-  } catch(e) { 
-    console.error("Erro no login:", e);
-    if (e.code === 'auth/operation-not-allowed') {
-      toast('Erro: O login com Google não está ativado no Firebase.');
-    } else if (e.code === 'auth/unauthorized-domain') {
-      toast('Erro: Este domínio não está autorizado no Firebase.');
-    } else {
-      toast('Erro ao entrar: ' + (e.message || 'Tente novamente.'));
-    }
-  }
+  } catch(e) { toast('Erro ao entrar: ' + (e.message || 'Tente novamente.')); }
 };
-
-getRedirectResult(auth).catch((e) => {
-  if (e) {
-    console.error("Erro no redirect:", e);
-    toast('Erro no login: ' + e.message);
-  }
-});
-
+getRedirectResult(auth).catch(e => { if(e) toast('Erro no login: ' + e.message); });
 window.signOut = async () => {
   if(unsubscribe) unsubscribe();
   await fbSignOut(auth);
 };
-
-// Lembrete de revisão na tela de login
-async function verificarRevisoesPendentes() {
-  // mostrado após login
-}
 
 onAuthStateChanged(auth, user => {
   currentUser = user;
@@ -1523,146 +1309,98 @@ onAuthStateChanged(auth, user => {
 
 function listenErros(uid) {
   if(unsubscribe) unsubscribe();
-  const q = query(collection(db, 'usuarios', uid, 'erros'), orderBy('criadoEm','desc'));
+  const q = query(collection(db,'usuarios',uid,'erros'), orderBy('criadoEm','desc'));
   unsubscribe = onSnapshot(q, snap => {
     erros = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderCards();
     updateStats();
-    populateFilter();
+    populateFilters();
+    if(document.getElementById('chart-section').style.display !== 'none') renderChart();
   });
 }
 
-// TAGS
-window.handleTagInput = (event) => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    const input = document.getElementById('f-tags-input');
-    const tag = input.value.trim();
-    if (tag && !currentTags.includes(tag)) {
-      currentTags.push(tag);
-      renderTags();
-      input.value = '';
-    }
-  }
-};
-
-function renderTags() {
-  const container = document.getElementById('tags-container');
-  const input = document.getElementById('f-tags-input');
-  container.innerHTML = '';
-  currentTags.forEach(tag => {
-    const tagEl = document.createElement('div');
-    tagEl.className = 'tag-item';
-    tagEl.innerHTML = `${tag} <button class="tag-remove" onclick="removeTag('${tag}')">×</button>`;
-    container.appendChild(tagEl);
-  });
-  container.appendChild(input);
-}
-
-window.removeTag = (tag) => {
-  currentTags = currentTags.filter(t => t !== tag);
-  renderTags();
-};
-
-// STATS
+/* ─── STATS ─── */
 function updateStats() {
-  document.getElementById('s-total').textContent = erros.length;
   const hoje = new Date(); hoje.setHours(0,0,0,0);
-  const rev = erros.filter(e => {
-    if(!e.proxRevisao) return true;
-    return new Date(e.proxRevisao) <= hoje;
-  }).length;
-  document.getElementById('s-hoje').textContent = rev;
-  const mats = new Set(erros.map(e=>e.mat).filter(Boolean)).size;
-  document.getElementById('s-mats').textContent = mats;
-  const total = erros.reduce((a,e)=>(a+(e.acertos||0)+(e.errosRev||0)),0);
-  const ac = erros.reduce((a,e)=>a+(e.acertos||0),0);
-  document.getElementById('s-taxa').textContent = total ? Math.round(ac/total*100)+'%' : '—';
-  // Atualizar lembrete login
-  const hoje2 = new Date(); hoje2.setHours(0,0,0,0);
-  const rev2 = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje2).length;
-  // Atualizar título da aba
-  const hoje3 = new Date(); hoje3.setHours(0,0,0,0);
-  const rev3 = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje3).length;
-  document.title = rev3 > 0 ? `(${rev3}) Caderno de Erros` : 'Caderno de Erros';
-  // Atualizar gráfico se visível
-  if(document.getElementById('chart-section').style.display !== 'none') renderChart();
+  const rev = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje).length;
+  document.getElementById('s-total').textContent = erros.length;
+  document.getElementById('s-hoje').textContent  = rev;
+  document.getElementById('s-mats').textContent  = new Set(erros.map(e=>e.mat).filter(Boolean)).size;
+  const totalRev = erros.reduce((a,e) => a+(e.acertos||0)+(e.errosRev||0), 0);
+  const acertos  = erros.reduce((a,e) => a+(e.acertos||0), 0);
+  document.getElementById('s-taxa').textContent = totalRev ? Math.round(acertos/totalRev*100)+'%' : '—';
+  document.title = rev > 0 ? `(${rev}) Caderno de Erros` : 'Caderno de Erros';
 }
 
-function populateFilter() {
-  const sel = document.getElementById('filtro-mat');
-  const cur = sel.value;
+function populateFilters() {
   const mats = [...new Set(erros.map(e=>e.mat).filter(Boolean))].sort();
-  sel.innerHTML = '<option value="">Todas as matérias</option>';
-  mats.forEach(m => {
-    const o = document.createElement('option');
-    o.value = m; o.textContent = m;
-    if(m===cur) o.selected = true;
-    sel.appendChild(o);
+  ['filtro-mat','d-filtro-mat'].forEach(id => {
+    const sel = document.getElementById(id);
+    if(!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">Todas as matérias</option>';
+    mats.forEach(m => {
+      const o = document.createElement('option');
+      o.value = m; o.textContent = m;
+      if(m===cur) o.selected = true;
+      sel.appendChild(o);
+    });
   });
 }
 
-// RENDER
+/* ─── RENDER CARDS ─── */
+let filtroTagsAtivas = new Set();
+
+function getFilters() {
+  const mobile = window.innerWidth <= 600;
+  return {
+    busca:  mobile ? (document.getElementById('d-busca')?.value||'').toLowerCase()
+                   : (document.getElementById('busca')?.value||'').toLowerCase(),
+    mat:    mobile ? document.getElementById('d-filtro-mat')?.value
+                   : document.getElementById('filtro-mat')?.value,
+    dif:    mobile ? document.getElementById('d-filtro-dif')?.value
+                   : document.getElementById('filtro-dif')?.value,
+    rev:    mobile ? document.getElementById('d-filtro-rev')?.value
+                   : document.getElementById('filtro-rev')?.value,
+    ordem:  mobile ? document.getElementById('d-filtro-ordem')?.value
+                   : document.getElementById('filtro-ordem')?.value || 'recente',
+  };
+}
+
 window.renderCards = function() {
-  const busca = (document.getElementById('busca').value||'').toLowerCase();
-  const fmat  = document.getElementById('filtro-mat').value;
-  const fdif  = document.getElementById('filtro-dif').value;
-  const frev  = document.getElementById('filtro-rev').value;
-  const fordem = document.getElementById('filtro-ordem').value;
-  const hoje  = new Date(); hoje.setHours(0,0,0,0);
+  const { busca, mat, dif, rev, ordem } = getFilters();
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
 
   let rows = erros.filter(e => {
-    if(fmat && e.mat!==fmat) return false;
-    if(fdif && e.dif!==fdif) return false;
-    if(frev==='hoje') {
-      if(e.proxRevisao && new Date(e.proxRevisao)>hoje) return false;
-    }
+    if(mat && e.mat !== mat) return false;
+    if(dif && e.dif !== dif) return false;
+    if(rev === 'hoje' && e.proxRevisao && new Date(e.proxRevisao) > hoje) return false;
     if(busca) {
-      const txt = (e.mat+(e.artigo||'')+(e.enunciado||'')+(e.obs||'')+(e.fixar||'')+(e.motivo||'')+(e.fonte||'')).toLowerCase();
+      const txt = (e.mat+e.artigo+e.enunciado+e.obs+e.fixar+e.motivo+e.fonte).toLowerCase();
       if(!txt.includes(busca)) return false;
     }
     if(filtroTagsAtivas.size > 0) {
-      const tags = e.tags || [];
+      const tags = e.tags||[];
       if(![...filtroTagsAtivas].every(t => tags.includes(t))) return false;
     }
     return true;
   });
 
-  // Ordenação
-  const difOrd = {'Alta':0,'Média':1,'Baixa':2};
-  if(fordem === 'revisao') {
-    rows.sort((a,b) => {
-      if(!a.proxRevisao) return -1;
-      if(!b.proxRevisao) return 1;
-      return new Date(a.proxRevisao) - new Date(b.proxRevisao);
-    });
-  } else if(fordem === 'dif-alta') {
-    rows.sort((a,b) => (difOrd[a.dif||'Média']||1) - (difOrd[b.dif||'Média']||1));
-  } else if(fordem === 'dif-baixa') {
-    rows.sort((a,b) => (difOrd[b.dif||'Média']||1) - (difOrd[a.dif||'Média']||1));
-  } else if(fordem === 'acerto') {
-    rows.sort((a,b) => {
-      const ta = (a.acertos||0)+(a.errosRev||0);
-      const tb = (b.acertos||0)+(b.errosRev||0);
-      const pa = ta ? (a.acertos||0)/ta : -1;
-      const pb = tb ? (b.acertos||0)/tb : -1;
-      return pa - pb;
-    });
-  }
-  // default: recente (já vem ordenado por criadoEm desc do Firestore)
+  const difOrd = { Alta:0, Média:1, Baixa:2 };
+  if(ordem==='revisao') rows.sort((a,b)=>(!a.proxRevisao?-1:!b.proxRevisao?1:new Date(a.proxRevisao)-new Date(b.proxRevisao)));
+  else if(ordem==='dif-alta') rows.sort((a,b)=>(difOrd[a.dif||'Média']||1)-(difOrd[b.dif||'Média']||1));
+  else if(ordem==='dif-baixa') rows.sort((a,b)=>(difOrd[b.dif||'Média']||1)-(difOrd[a.dif||'Média']||1));
+  else if(ordem==='acerto') rows.sort((a,b)=>{
+    const ta=(a.acertos||0)+(a.errosRev||0), tb=(b.acertos||0)+(b.errosRev||0);
+    return (ta?((a.acertos||0)/ta):-1)-(tb?((b.acertos||0)/tb):-1);
+  });
 
-  // Contador
   const contador = document.getElementById('contador-questoes');
   if(contador) {
-    const total = erros.length;
-    contador.textContent = rows.length === total
-      ? `${total} questão${total!==1?'ões':''} registrada${total!==1?'s':''}`
-      : `Mostrando ${rows.length} de ${total} questões`;
+    contador.textContent = rows.length === erros.length
+      ? `${erros.length} questão${erros.length!==1?'ões':''} registrada${erros.length!==1?'s':''}`
+      : `Mostrando ${rows.length} de ${erros.length} questões`;
   }
-
-  // Indicador no título da aba
-  const revisar = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje).length;
-  document.title = revisar > 0 ? `(${revisar}) Caderno de Erros` : 'Caderno de Erros';
 
   const cont = document.getElementById('cards-container');
   if(!rows.length) {
@@ -1676,233 +1414,280 @@ window.renderCards = function() {
 
   cont.innerHTML = rows.map(e => {
     const bc = MATS[e.mat]||'badge-proc';
-    const t = (e.acertos||0)+(e.errosRev||0);
+    const t  = (e.acertos||0)+(e.errosRev||0);
     const pct = t ? Math.round((e.acertos||0)/t*100) : 0;
-    const barColor = pct>=70?'#2d7a5a':pct>=40?'#a05a6a':'#b5404a';
+    const barColor = pct>=70?'#639922':pct>=40?'#BA7517':'#E24B4A';
     let revHtml = '';
     if(!e.proxRevisao) {
       revHtml = '<span class="rev-tag rev-hoje">Revisar agora</span>';
     } else {
       const d = new Date(e.proxRevisao);
-      const diff = Math.round((d-hoje)/(86400000));
-      if(diff<=0) revHtml = '<span class="rev-tag rev-hoje">Revisar hoje</span>';
+      const diff = Math.round((d-hoje)/86400000);
+      if(diff<=0)      revHtml = '<span class="rev-tag rev-hoje">Revisar hoje</span>';
       else if(diff<=3) revHtml = `<span class="rev-tag rev-prox">Em ${diff}d</span>`;
-      else revHtml = `<span class="rev-tag rev-ok">${d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}</span>`;
+      else             revHtml = `<span class="rev-tag rev-ok">${d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}</span>`;
     }
 
-    const tagsHtml = (e.tags && e.tags.length > 0) ? `<div class="card-tags">${e.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : '';
+    const tagsHtml = (e.tags&&e.tags.length)
+      ? `<div class="card-tags">${e.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>` : '';
 
-    return `<div class="card" id="card-${e.id}" onclick="handleCardClick(event,'${e.id}')" style="cursor:pointer">
+    const altHtml = (e.correta||e.marquei) ? `<div class="alt-row">
+      ${e.correta?`<div class="alt-block"><div class="alt-label certa">✓ Certa</div><div class="alt-chip certa">${e.correta.slice(0,90)}${e.correta.length>90?'…':''}</div></div>`:''}
+      ${e.marquei?`<div class="alt-block"><div class="alt-label marquei">✗ Marquei</div><div class="alt-chip marquei">${e.marquei.slice(0,90)}${e.marquei.length>90?'…':''}</div></div>`:''}
+    </div>` : '';
+
+    return `<div class="card" id="card-${e.id}" onclick="handleCardClick(event,'${e.id}')">
       <div class="card-top">
         <div class="card-badges">
           <span class="badge ${bc}">${e.mat||'—'}</span>
-          <div class="dif-dot dif-${e.dif||'Média'}" title="Dificuldade: ${e.dif||'Média'}"></div>
+          <div class="dif-dot dif-${e.dif||'Média'}" title="Dificuldade ${e.dif||'Média'}"></div>
         </div>
         <div class="card-menu">
           <button class="menu-btn" onclick="toggleMenu('${e.id}')">⋯</button>
           <div class="dropdown" id="menu-${e.id}">
             <button class="dd-item" onclick="verErro('${e.id}')">👁 Ver</button>
-            <button class="dd-item" onclick="editar('${e.id}')">Editar</button>
-            <button class="dd-item danger" onclick="confirmarDeletar('${e.id}')">Excluir</button>
+            <button class="dd-item" onclick="editar('${e.id}')">✏️ Editar</button>
+            <button class="dd-item danger" onclick="confirmarDeletar('${e.id}')">🗑️ Excluir</button>
           </div>
         </div>
       </div>
       ${e.artigo?`<div class="card-artigo">${e.artigo}</div>`:''}
       <div class="card-enunciado">${e.enunciado||'—'}</div>
       ${tagsHtml}
-      ${(e.correta||e.marquei)?`<div class="card-row">
-        ${e.correta?`<div><span class="card-label">Certa:</span><div class="alt-chip">${e.correta.substring(0, 100)}${e.correta.length > 100 ? '...' : ''}</div></div>`:''}
-        ${e.marquei?`<div><span class="card-label">Marquei:</span><div class="alt-chip">${e.marquei.substring(0, 100)}${e.marquei.length > 100 ? '...' : ''}</div></div>`:''}
-      </div>`:''}
+      ${altHtml}
       ${e.motivo?`<div class="motivo-chip">${e.motivo}</div>`:''}
-      ${e.fixar?`<div style="font-size:12px;color:rgba(74,44,58,0.5);line-height:1.45;margin-bottom:8px">${e.fixar.slice(0,80)}${e.fixar.length>80?'…':''}</div>`:''}
       <div class="card-divider"></div>
-      <div class="acerto-row" style="margin-bottom:8px">
+      <div class="acerto-row">
         ${revHtml}
         <div class="acerto-bar"><div class="acerto-fill" style="width:${pct}%;background:${barColor}"></div></div>
-        <span style="font-size:11px;color:rgba(74,44,58,0.5);white-space:nowrap">${t?pct+'%':'sem revisões'}</span>
+        <span style="font-size:11px;color:rgba(58,37,53,0.45);white-space:nowrap">${t?pct+'%':'—'}</span>
       </div>
       <div class="card-actions">
         <button class="rev-btn acertei" onclick="acertou('${e.id}')">✓ Acertei</button>
         <button class="rev-btn errei" onclick="errouRev('${e.id}')">✗ Errei</button>
       </div>
-      ${e.fonte?`<div style="font-size:10px;color:rgba(74,44,58,0.35);margin-top:6px">${e.fonte}</div>`:''}
+      ${e.fonte?`<div class="card-fonte">${e.fonte}</div>`:''}
     </div>`;
   }).join('');
 };
 
-window.toggleMenu = function(id) {
-  document.querySelectorAll('.dropdown').forEach(d => {
-    if(d.id!==`menu-${id}`) d.classList.remove('open');
-  });
+window.toggleMenu = id => {
+  document.querySelectorAll('.dropdown').forEach(d => { if(d.id!==`menu-${id}`) d.classList.remove('open'); });
   document.getElementById(`menu-${id}`).classList.toggle('open');
 };
 document.addEventListener('click', e => {
-  if(!e.target.closest('.card-menu')) {
-    document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
-  }
+  if(!e.target.closest('.card-menu') && !e.target.closest('.export-menu'))
+    document.querySelectorAll('.dropdown, .export-dropdown').forEach(d=>d.classList.remove('open'));
 });
 
-// MODAL
+/* ─── STEPPER ─── */
+let currentStep = 1;
+const TOTAL_STEPS = 3;
+
+window.goStep = function(n) {
+  if(n > currentStep && !validateStep(currentStep)) return;
+  currentStep = n;
+  refreshStepper();
+};
+
+function refreshStepper() {
+  for(let i=1; i<=TOTAL_STEPS; i++) {
+    document.getElementById(`panel-${i}`).classList.toggle('active', i===currentStep);
+    const item = document.getElementById(`step-item-${i}`);
+    const circle = document.getElementById(`step-circle-${i}`);
+    item.classList.toggle('active', i===currentStep);
+    item.classList.toggle('done', i<currentStep);
+    circle.textContent = i < currentStep ? '✓' : i;
+    if(i < TOTAL_STEPS) {
+      document.getElementById(`step-line-${i}`).classList.toggle('done', i<currentStep);
+    }
+  }
+  const btnBack = document.getElementById('btn-step-back');
+  const btnAv   = document.getElementById('btn-avancar');
+  const btnSalv = document.getElementById('btn-salvar');
+  btnBack.style.display = currentStep > 1 ? 'block' : 'none';
+  btnAv.style.display   = currentStep < TOTAL_STEPS ? 'block' : 'none';
+  btnSalv.style.display = currentStep === TOTAL_STEPS ? 'block' : 'none';
+}
+
+function validateStep(step) {
+  if(step === 1) {
+    if(!document.getElementById('f-mat').value) { toast('Selecione a matéria.'); return false; }
+    if(!document.getElementById('f-enunciado').value.trim()) { toast('Preencha o enunciado.'); return false; }
+  }
+  return true;
+}
+
+window.stepNext = function() {
+  if(!validateStep(currentStep)) return;
+  if(currentStep < TOTAL_STEPS) { currentStep++; refreshStepper(); }
+};
+window.stepBack = function() {
+  if(currentStep > 1) { currentStep--; refreshStepper(); }
+};
+
+/* ─── MODAL ─── */
 window.abrirModal = function() {
-  editId = null;
-  currentTags = [];
+  editId = null; currentTags = []; currentStep = 1;
   ['f-mat','f-artigo','f-enunciado','f-correta','f-marquei','f-motivo','f-obs','f-fixar','f-fonte']
     .forEach(id => document.getElementById(id).value='');
-  document.getElementById('f-dif').value='Média';
-  renderTags();
-  document.getElementById('modal-titulo').textContent='Registrar erro';
-  document.getElementById('btn-salvar').textContent='Salvar questão';
+  document.getElementById('f-dif').value = 'Média';
+  renderTags(); refreshStepper();
+  document.getElementById('modal-titulo').textContent = 'Registrar erro';
+  document.getElementById('btn-salvar').textContent = 'Salvar questão';
   document.getElementById('modal-bg').classList.add('open');
 };
-
-window.fecharModal = function() {
-  document.getElementById('modal-bg').classList.remove('open');
-};
-
-window.bgClick = function(ev) {
-  if(ev.target===document.getElementById('modal-bg')) fecharModal();
-};
+window.fecharModal = () => document.getElementById('modal-bg').classList.remove('open');
+window.bgClick = ev => { if(ev.target===document.getElementById('modal-bg')) fecharModal(); };
 
 window.editar = function(id) {
   const e = erros.find(x=>x.id===id);
   if(!e) return;
-  editId = id;
-  currentTags = e.tags || [];
-  document.getElementById('f-mat').value = e.mat||'';
-  document.getElementById('f-artigo').value = e.artigo||'';
-  document.getElementById('f-enunciado').value = e.enunciado||'';
-  document.getElementById('f-correta').value = e.correta||'';
-  document.getElementById('f-marquei').value = e.marquei||'';
-  document.getElementById('f-motivo').value = e.motivo||'';
-  document.getElementById('f-obs').value = e.obs||'';
-  document.getElementById('f-fixar').value = e.fixar||'';
-  document.getElementById('f-dif').value = e.dif||'Média';
-  document.getElementById('f-fonte').value = e.fonte||'';
-  renderTags();
-  document.getElementById('modal-titulo').textContent='Editar questão';
-  document.getElementById('btn-salvar').textContent='Atualizar';
+  editId = id; currentTags = e.tags||[]; currentStep = 1;
+  document.getElementById('f-mat').value      = e.mat||'';
+  document.getElementById('f-artigo').value   = e.artigo||'';
+  document.getElementById('f-enunciado').value= e.enunciado||'';
+  document.getElementById('f-correta').value  = e.correta||'';
+  document.getElementById('f-marquei').value  = e.marquei||'';
+  document.getElementById('f-motivo').value   = e.motivo||'';
+  document.getElementById('f-obs').value      = e.obs||'';
+  document.getElementById('f-fixar').value    = e.fixar||'';
+  document.getElementById('f-dif').value      = e.dif||'Média';
+  document.getElementById('f-fonte').value    = e.fonte||'';
+  renderTags(); refreshStepper();
+  document.getElementById('modal-titulo').textContent = 'Editar questão';
+  document.getElementById('btn-salvar').textContent = 'Atualizar';
   document.getElementById('modal-bg').classList.add('open');
   document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
 };
 
+/* ─── TAGS ─── */
+window.handleTagInput = ev => {
+  if(ev.key==='Enter') {
+    ev.preventDefault();
+    const inp = document.getElementById('f-tags-input');
+    const tag = inp.value.trim();
+    if(tag && !currentTags.includes(tag)) { currentTags.push(tag); renderTags(); }
+    inp.value = '';
+  }
+};
+function renderTags() {
+  const cont = document.getElementById('tags-container');
+  const inp  = document.getElementById('f-tags-input');
+  cont.innerHTML = '';
+  currentTags.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'tag-item';
+    el.innerHTML = `${t} <button class="tag-remove" onclick="removeTag('${t}')">×</button>`;
+    cont.appendChild(el);
+  });
+  cont.appendChild(inp);
+}
+window.removeTag = tag => { currentTags = currentTags.filter(t=>t!==tag); renderTags(); };
+
+/* ─── SALVAR ─── */
 window.salvar = async function() {
-  const mat = document.getElementById('f-mat').value;
-  const enunciado = document.getElementById('f-enunciado').value.trim();
-  if(!mat||!enunciado) { toast('Preencha matéria e enunciado.'); return; }
   const btn = document.getElementById('btn-salvar');
-  btn.disabled = true;
+  btn.disabled = true; btn.textContent = 'Salvando...'; btn.classList.add('saving');
   const data = {
-    mat, enunciado,
-    artigo: document.getElementById('f-artigo').value.trim(),
-    correta: document.getElementById('f-correta').value.trim(),
-    marquei: document.getElementById('f-marquei').value.trim(),
-    motivo: document.getElementById('f-motivo').value,
-    obs: document.getElementById('f-obs').value.trim(),
-    fixar: document.getElementById('f-fixar').value.trim(),
-    dif: document.getElementById('f-dif').value,
-    fonte: document.getElementById('f-fonte').value.trim(),
-    tags: currentTags
+    mat:      document.getElementById('f-mat').value,
+    enunciado:document.getElementById('f-enunciado').value.trim(),
+    artigo:   document.getElementById('f-artigo').value.trim(),
+    correta:  document.getElementById('f-correta').value.trim(),
+    marquei:  document.getElementById('f-marquei').value.trim(),
+    motivo:   document.getElementById('f-motivo').value,
+    obs:      document.getElementById('f-obs').value.trim(),
+    fixar:    document.getElementById('f-fixar').value.trim(),
+    dif:      document.getElementById('f-dif').value,
+    fonte:    document.getElementById('f-fonte').value.trim(),
+    tags:     currentTags
   };
   try {
     const uid = currentUser.uid;
     if(editId) {
       await updateDoc(doc(db,'usuarios',uid,'erros',editId), data);
-      toast('Questão atualizada!');
+      toast('Questão atualizada! ✓');
     } else {
-      data.acertos = 0;
-      data.errosRev = 0;
-      data.proxRevisao = null;
-      data.criadoEm = serverTimestamp();
+      data.acertos=0; data.errosRev=0; data.proxRevisao=null; data.criadoEm=serverTimestamp();
       await addDoc(collection(db,'usuarios',uid,'erros'), data);
-      toast('Questão registrada com sucesso!');
+      toast('Questão registrada! ✓');
     }
     fecharModal();
   } catch(e) { toast('Erro ao salvar. Tente novamente.'); }
-  btn.disabled = false;
+  btn.disabled=false; btn.textContent = editId?'Atualizar':'Salvar questão'; btn.classList.remove('saving');
 };
 
+/* ─── VER ERRO ─── */
 window.verErro = function(id) {
-  const e = erros.find(x => x.id === id);
-  if (!e) return;
-  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+  const e = erros.find(x=>x.id===id);
+  if(!e) return;
+  document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+  const bc = MATS[e.mat]||'badge-proc';
+  const t  = (e.acertos||0)+(e.errosRev||0);
+  const pct = t ? Math.round((e.acertos||0)/t*100) : 0;
+  const difColors = {Alta:'var(--danger)',Média:'var(--warning)',Baixa:'var(--success)'};
+  const difColor = difColors[e.dif||'Média'];
 
-  const bc = MATS[e.mat] || 'badge-proc';
-  const t = (e.acertos || 0) + (e.errosRev || 0);
-  const pct = t ? Math.round((e.acertos || 0) / t * 100) : 0;
-  const difLabel = {'Alta':'🔴 Alta','Média':'🟡 Média','Baixa':'🟢 Baixa'}[e.dif||'Média'] || e.dif;
+  const field = (lbl, val) => val ? `<div class="ver-field">
+    <div class="ver-label">${lbl}</div>
+    <div class="ver-val">${val}</div>
+  </div>` : '';
 
-  const row = (label, val) => val ? `
-    <div style="margin-bottom:14px">
-      <div style="font-size:11px;font-weight:600;color:rgba(74,44,58,0.45);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:4px">${label}</div>
-      <div style="font-size:14px;color:var(--ink);line-height:1.6;white-space:pre-wrap">${val}</div>
-    </div>` : '';
-
-  const tagsHtml = (e.tags && e.tags.length) ? `
-    <div style="margin-bottom:14px">
-      <div style="font-size:11px;font-weight:600;color:rgba(74,44,58,0.45);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:6px">Tags</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">${e.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
-    </div>` : '';
+  const tagsHtml = (e.tags&&e.tags.length) ? `<div class="ver-field">
+    <div class="ver-label">Tags</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${e.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+  </div>` : '';
 
   document.getElementById('ver-modal-body').innerHTML = `
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px">
-      <span class="badge ${bc}">${e.mat || '—'}</span>
-      <span style="font-size:13px">${difLabel}</span>
-      ${e.fonte ? `<span style="font-size:12px;color:rgba(74,44,58,0.4)">${e.fonte}</span>` : ''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+      <span class="badge ${bc}">${e.mat||'—'}</span>
+      <span style="font-size:13px;color:${difColor};font-weight:500">● ${e.dif||'Média'}</span>
+      ${e.fonte?`<span style="font-size:12px;color:rgba(58,37,53,0.4)">${e.fonte}</span>`:''}
     </div>
-    ${row('Tópico / Artigo', e.artigo)}
-    ${row('Enunciado', e.enunciado)}
-    ${row('Alternativa correta', e.correta)}
-    ${row('Alternativa que marquei', e.marquei)}
-    ${row('Por que errei', e.motivo)}
-    ${row('Observação', e.obs)}
-    ${row('Como fixar', e.fixar)}
+    ${field('Tópico / Artigo', e.artigo)}
+    ${field('Enunciado', e.enunciado)}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      ${e.correta?`<div><div class="ver-label" style="color:var(--success)">✓ Alternativa Correta</div><div style="background:var(--success-bg);color:var(--green-800);padding:8px 10px;border-radius:6px;font-size:13px;line-height:1.5;margin-top:4px">${e.correta}</div></div>`:''}
+      ${e.marquei?`<div><div class="ver-label" style="color:var(--danger)">✗ Alternativa Marcada</div><div style="background:var(--danger-bg);color:var(--red-800);padding:8px 10px;border-radius:6px;font-size:13px;line-height:1.5;margin-top:4px">${e.marquei}</div></div>`:''}
+    </div>
+    ${field('Por que errei', e.motivo)}
+    ${field('Observação', e.obs)}
+    ${field('Como fixar', e.fixar)}
     ${tagsHtml}
-    <div style="height:1px;background:var(--border);margin:10px 0 14px"></div>
-    <div style="display:flex;gap:16px;font-size:13px;color:rgba(74,44,58,0.5)">
-      <span>✅ ${e.acertos || 0} acertos</span>
-      <span>❌ ${e.errosRev || 0} erros na revisão</span>
-      <span>📊 ${t ? pct + '% de aproveitamento' : 'Ainda não revisado'}</span>
+    <div style="height:0.5px;background:var(--border);margin:14px 0"></div>
+    <div style="display:flex;gap:16px;font-size:13px;color:rgba(58,37,53,0.5);flex-wrap:wrap">
+      <span>✅ ${e.acertos||0} acertos</span>
+      <span>❌ ${e.errosRev||0} erros</span>
+      <span>📊 ${t?pct+'% de aproveitamento':'Ainda não revisado'}</span>
     </div>
   `;
-
   document.getElementById('ver-modal-editar-btn').onclick = () => { fecharVerModal(); editar(id); };
   document.getElementById('ver-modal-bg').classList.add('open');
 };
-
-window.fecharVerModal = function() {
-  document.getElementById('ver-modal-bg').classList.remove('open');
-};
-
-window.bgClickVer = function(ev) {
-  if (ev.target === document.getElementById('ver-modal-bg')) fecharVerModal();
-};
-
-window.handleCardClick = function(event, id) {
-  // Não abre o modal se clicou no menu, botões de revisão ou dropdown
-  if(event.target.closest('.card-menu') || event.target.closest('.card-actions') || event.target.closest('.dropdown')) return;
+window.fecharVerModal = () => document.getElementById('ver-modal-bg').classList.remove('open');
+window.bgClickVer = ev => { if(ev.target===document.getElementById('ver-modal-bg')) fecharVerModal(); };
+window.handleCardClick = (ev, id) => {
+  if(ev.target.closest('.card-menu')||ev.target.closest('.card-actions')||ev.target.closest('.dropdown')) return;
   verErro(id);
 };
 
-window.confirmarDeletar = function(id) {
-  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+/* ─── DELETAR ─── */
+window.confirmarDeletar = id => {
+  document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
   document.getElementById('confirm-deletar-btn').onclick = () => deletar(id);
   document.getElementById('confirm-modal-bg').classList.add('open');
 };
-
-window.fecharConfirm = function() {
-  document.getElementById('confirm-modal-bg').classList.remove('open');
-};
-
-window.deletar = async function(id) {
+window.fecharConfirm = () => document.getElementById('confirm-modal-bg').classList.remove('open');
+document.getElementById('confirm-modal-bg').addEventListener('click', ev => {
+  if(ev.target === document.getElementById('confirm-modal-bg')) fecharConfirm();
+});
+window.deletar = async id => {
   fecharConfirm();
-  document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
-  try {
-    await deleteDoc(doc(db,'usuarios',currentUser.uid,'erros',id));
-    toast('Questão removida.');
-  } catch(e) { toast('Erro ao remover.'); }
+  try { await deleteDoc(doc(db,'usuarios',currentUser.uid,'erros',id)); toast('Questão removida.'); }
+  catch(e) { toast('Erro ao remover.'); }
 };
 
+/* ─── REVISÃO ─── */
 window.acertou = async function(id) {
   const e = erros.find(x=>x.id===id);
   if(!e) return;
@@ -1910,102 +1695,39 @@ window.acertou = async function(id) {
   const dias = ac<=1?3:ac<=2?7:14;
   const d = new Date(); d.setDate(d.getDate()+dias);
   await updateDoc(doc(db,'usuarios',currentUser.uid,'erros',id), {
-    acertos: ac,
-    proxRevisao: d.toISOString()
+    acertos: ac, proxRevisao: d.toISOString()
   });
-  toast(`Ótimo! Próxima revisão em ${dias} dias.`);
+  toast(`✓ Ótimo! Próxima revisão em ${dias} dias.`);
 };
-
 window.errouRev = async function(id) {
   const e = erros.find(x=>x.id===id);
   if(!e) return;
   const d = new Date(); d.setDate(d.getDate()+1);
   await updateDoc(doc(db,'usuarios',currentUser.uid,'erros',id), {
-    errosRev: (e.errosRev||0)+1,
-    proxRevisao: d.toISOString()
+    errosRev: (e.errosRev||0)+1, proxRevisao: d.toISOString()
   });
   toast('Revisão agendada para amanhã.');
 };
 
-// SIMULADO
-let queue = [];
-window.iniciarSimulado = () => {
-  const hoje = new Date(); hoje.setHours(0,0,0,0);
-  queue = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje);
-  if(!queue.length) return toast('Nada para revisar hoje!');
-  document.getElementById('simulado-screen').style.display = 'block';
-  nextSim();
-};
-
-function nextSim() {
-  if(!queue.length) { toast('Fim da revisão!'); return fecharSimulado(); }
-  const q = queue[0];
-  document.getElementById('simulado-content').innerHTML = `
-    <div class="card" style="padding:2rem; max-width: 800px; margin: auto;">
-      <span class="badge" style="background:var(--gold-light); color:var(--gold);">${q.mat}</span>
-      <div style="font-size:20px; margin:20px 0; line-height: 1.5;">${q.enunciado}</div>
-      <div id="rev-area"><button class="btn-add" onclick="reveal('${q.id}')">Ver Gabarito & Explicação</button></div>
-    </div>
-  `;
-}
-
-window.reveal = id => {
-  const q = erros.find(x => x.id === id);
-  document.getElementById('rev-area').innerHTML = `
-    <div style="padding:15px; background:var(--paper2); border-radius:10px; border-left:4px solid var(--gold); margin-top: 20px;">
-      <p><b>Gabarito:</b></p>
-      <p style="margin-top:10px; opacity: 0.8; white-space: pre-wrap;">${q.correta || '?'}</p>
-      <p style="margin-top:15px;"><b>Observações:</b></p>
-      <p style="margin-top:10px; opacity: 0.8; white-space: pre-wrap;">${q.obs || 'Sem observações.'}</p>
-      <div style="display:flex; gap:10px; margin-top:20px;">
-        <button class="rev-btn acertei" style="padding: 10px;" onclick="finishSim('${q.id}', true)">Acertei ✓</button>
-        <button class="rev-btn errei" style="padding: 10px;" onclick="finishSim('${q.id}', false)">Errei ✗</button>
-      </div>
-    </div>
-  `;
-};
-
-window.finishSim = async (id, ok) => {
-  if(ok) await window.acertou(id); else await window.errouRev(id);
-  queue.shift();
-  nextSim();
-};
-
-window.fecharSimulado = () => document.getElementById('simulado-screen').style.display = 'none';
-
-
-
-// ── LEMBRETE DE REVISÃO ──
-function atualizarLembreteLogin(uid) {
-  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(({ getFirestore, collection, query, orderBy, getDocs }) => {
-    // handled via onAuthStateChanged
-  });
-}
-
-// ── GRÁFICO ──
+/* ─── GRÁFICO (dados reais) ─── */
 let myChart = null;
 let chartMode = 'semana';
 
 window.toggleChart = function() {
   const sec = document.getElementById('chart-section');
   const btn = document.getElementById('btn-chart');
-  if(sec.style.display === 'none') {
-    sec.style.display = 'block';
-    btn.style.background = 'var(--gold-light)';
-    btn.style.borderColor = 'var(--gold)';
-    btn.style.color = 'var(--amber)';
+  if(sec.style.display==='none') {
+    sec.style.display='block';
+    btn.classList.add('active');
     renderChart();
   } else {
-    sec.style.display = 'none';
-    btn.style.background = 'transparent';
-    btn.style.borderColor = 'var(--border2)';
-    btn.style.color = 'var(--ink)';
+    sec.style.display='none';
+    btn.classList.remove('active');
   }
 };
-
 window.switchChart = function(mode, el) {
   chartMode = mode;
-  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   renderChart();
 };
@@ -2014,172 +1736,325 @@ function renderChart() {
   const ctx = document.getElementById('myChart').getContext('2d');
   if(myChart) myChart.destroy();
 
-  let labels = [], dataAcertos = [], dataErros = [];
+  const isDark = document.documentElement.classList.contains('dark-mode');
+  const textColor  = isDark ? 'rgba(240,232,240,0.7)' : 'rgba(58,37,53,0.6)';
+  const gridColor  = isDark ? 'rgba(240,232,240,0.05)' : 'rgba(58,37,53,0.05)';
 
-  if(chartMode === 'semana') {
-    const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  let labels=[], dataAcertos=[], dataErros=[];
+
+  if(chartMode==='semana') {
+    // Dados reais: agrupa revisões dos últimos 7 dias por data
     const hoje = new Date(); hoje.setHours(0,0,0,0);
+    const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
     for(let i=6;i>=0;i--) {
       const d = new Date(hoje); d.setDate(d.getDate()-i);
+      const dStr = d.toISOString().split('T')[0];
       labels.push(dias[d.getDay()]);
-      const ac = erros.filter(e => e.acertos > 0).length;
-      dataAcertos.push(Math.floor(Math.random()*5 + ac/7));
-      dataErros.push(Math.floor(Math.random()*3));
+
+      // Conta questões cuja proxRevisao foi definida nesse dia (aproximação real)
+      // Acertos: erros com proxRevisao > hoje (foram acertados recentemente)
+      // Para dados reais, usamos o histórico implícito do proxRevisao
+      const acertosNoDia = erros.filter(e => {
+        if(!e.proxRevisao) return false;
+        const rev = new Date(e.proxRevisao); rev.setHours(0,0,0,0);
+        // proxRevisao = data atual + N dias. Se N=3, foi acertado há ~3 dias
+        const acertadoEm = new Date(rev);
+        const ac = e.acertos||0;
+        const dias_ = ac<=1?3:ac<=2?7:14;
+        acertadoEm.setDate(acertadoEm.getDate()-dias_);
+        acertadoEm.setHours(0,0,0,0);
+        return acertadoEm.getTime()===d.getTime();
+      }).length;
+
+      const errosNoDia = erros.filter(e => {
+        if(!e.proxRevisao) return false;
+        const rev = new Date(e.proxRevisao); rev.setHours(0,0,0,0);
+        const erradoEm = new Date(rev); erradoEm.setDate(erradoEm.getDate()-1);
+        erradoEm.setHours(0,0,0,0);
+        return erradoEm.getTime()===d.getTime() && (e.errosRev||0)>0;
+      }).length;
+
+      dataAcertos.push(acertosNoDia);
+      dataErros.push(errosNoDia);
     }
-  } else if(chartMode === 'mes') {
+
+  } else if(chartMode==='mes') {
+    // Últimos 4 meses — acertos e erros acumulados por mês
+    const hoje = new Date();
     for(let i=3;i>=0;i--) {
-      const d = new Date(); d.setMonth(d.getMonth()-i);
+      const d = new Date(hoje.getFullYear(), hoje.getMonth()-i, 1);
+      const fim = new Date(hoje.getFullYear(), hoje.getMonth()-i+1, 0);
       labels.push(d.toLocaleDateString('pt-BR',{month:'short'}));
-      dataAcertos.push(erros.filter(e=>(e.acertos||0)>0).length - i*2);
-      dataErros.push(erros.filter(e=>(e.errosRev||0)>0).length - i);
+
+      const acMes = erros.filter(e => {
+        if(!e.proxRevisao) return false;
+        const rev = new Date(e.proxRevisao);
+        const ac = e.acertos||0;
+        const diasN = ac<=1?3:ac<=2?7:14;
+        const acertadoEm = new Date(rev); acertadoEm.setDate(acertadoEm.getDate()-diasN);
+        return acertadoEm >= d && acertadoEm <= fim;
+      }).length;
+
+      const erMes = erros.filter(e => {
+        if(!e.proxRevisao) return false;
+        const rev = new Date(e.proxRevisao);
+        const erradoEm = new Date(rev); erradoEm.setDate(erradoEm.getDate()-1);
+        return erradoEm >= d && erradoEm <= fim && (e.errosRev||0)>0;
+      }).length;
+
+      dataAcertos.push(acMes);
+      dataErros.push(erMes);
     }
+
   } else {
+    // Por matéria — dados reais diretos
     const mats = [...new Set(erros.map(e=>e.mat).filter(Boolean))];
-    labels = mats.map(m => m.split(' ').slice(-1)[0]);
-    dataAcertos = mats.map(m => erros.filter(e=>e.mat===m&&(e.acertos||0)>0).length);
-    dataErros = mats.map(m => erros.filter(e=>e.mat===m&&(e.errosRev||0)>0).length);
+    labels      = mats.map(m => m.split(' ').slice(-1)[0]);
+    dataAcertos = mats.map(m => erros.filter(e=>e.mat===m&&(e.acertos||0)>0).reduce((a,e)=>a+(e.acertos||0),0));
+    dataErros   = mats.map(m => erros.filter(e=>e.mat===m&&(e.errosRev||0)>0).reduce((a,e)=>a+(e.errosRev||0),0));
   }
 
-  const isDark = document.body.classList.contains('dark-mode');
-  const textColor = isDark ? '#f5f2eb' : '#1a1a2e';
-
   myChart = new Chart(ctx, {
-    type: chartMode === 'mat' ? 'bar' : 'line',
+    type: chartMode==='mat' ? 'bar' : 'line',
     data: {
       labels,
       datasets: [
         {
           label: 'Acertos',
           data: dataAcertos,
-          borderColor: '#1a6b3c',
-          backgroundColor: chartMode === 'mat' ? 'rgba(26,107,60,0.7)' : 'rgba(26,107,60,0.1)',
-          tension: 0.4,
-          fill: chartMode !== 'mat',
+          borderColor: '#639922',
+          backgroundColor: chartMode==='mat' ? 'rgba(99,153,34,0.7)' : 'rgba(99,153,34,0.12)',
+          tension: 0.4, fill: chartMode!=='mat', pointRadius: 4,
+          pointBackgroundColor: '#639922',
         },
         {
           label: 'Erros',
           data: dataErros,
-          borderColor: '#c0392b',
-          backgroundColor: chartMode === 'mat' ? 'rgba(192,57,43,0.7)' : 'rgba(192,57,43,0.1)',
-          tension: 0.4,
-          fill: chartMode !== 'mat',
+          borderColor: '#E24B4A',
+          backgroundColor: chartMode==='mat' ? 'rgba(226,75,74,0.7)' : 'rgba(226,75,74,0.12)',
+          tension: 0.4, fill: chartMode!=='mat', pointRadius: 4,
+          pointBackgroundColor: '#E24B4A',
         }
       ]
     },
     options: {
       responsive: true,
-      plugins: { legend: { labels: { color: textColor, font: { family: 'DM Sans' } } } },
+      plugins: {
+        legend: { labels: { color: textColor, font: { family: 'DM Sans', size: 12 } } }
+      },
       scales: {
-        x: { ticks: { color: textColor }, grid: { color: isDark ? 'rgba(252,232,239,0.05)' : 'rgba(74,44,58,0.05)' } },
-        y: { ticks: { color: textColor }, grid: { color: isDark ? 'rgba(252,232,239,0.05)' : 'rgba(74,44,58,0.05)' } }
+        x: { ticks:{color:textColor,font:{family:'DM Sans',size:11}}, grid:{color:gridColor}, border:{display:false} },
+        y: { ticks:{color:textColor,font:{family:'DM Sans',size:11},stepSize:1}, grid:{color:gridColor}, border:{display:false}, beginAtZero:true }
       }
     }
   });
 }
 
-// ── FILTROS AVANÇADOS (TAGS) ──
-let filtroTagsAtivas = new Set();
-
+/* ─── FILTROS AVANÇADOS (TAGS) ─── */
 window.toggleFiltrosAvancados = function() {
-  const el = document.getElementById('filtros-avancados');
+  const el  = document.getElementById('filtros-avancados');
   const btn = document.getElementById('btn-filtros-av');
   el.classList.toggle('open');
-  if(el.classList.contains('open')) {
-    btn.style.background = 'var(--gold-light)';
-    btn.style.borderColor = 'var(--gold)';
-    btn.style.color = 'var(--amber)';
-    renderFiltroTags();
-  } else {
-    btn.style.background = 'transparent';
-    btn.style.borderColor = 'var(--border2)';
-    btn.style.color = 'var(--ink)';
-  }
+  btn.classList.toggle('active', el.classList.contains('open'));
+  if(el.classList.contains('open')) renderFiltroTags();
 };
-
 function renderFiltroTags() {
-  const todas = new Set(erros.flatMap(e => e.tags || []));
+  const todas = new Set(erros.flatMap(e=>e.tags||[]));
   const lista = document.getElementById('filtro-tags-lista');
   lista.innerHTML = '';
   if(!todas.size) {
-    lista.innerHTML = '<span style="font-size:12px;color:rgba(74,44,58,0.4)">Nenhuma tag cadastrada ainda.</span>';
+    lista.innerHTML='<span style="font-size:12px;color:rgba(58,37,53,0.4)">Nenhuma tag ainda.</span>';
     return;
   }
   todas.forEach(tag => {
     const btn = document.createElement('button');
-    btn.className = 'filtro-tag-btn' + (filtroTagsAtivas.has(tag) ? ' active' : '');
+    btn.className = 'filtro-tag-btn' + (filtroTagsAtivas.has(tag)?' active':'');
     btn.textContent = tag;
     btn.onclick = () => {
-      if(filtroTagsAtivas.has(tag)) filtroTagsAtivas.delete(tag);
-      else filtroTagsAtivas.add(tag);
-      renderFiltroTags();
-      renderCards();
+      filtroTagsAtivas.has(tag) ? filtroTagsAtivas.delete(tag) : filtroTagsAtivas.add(tag);
+      renderFiltroTags(); renderCards();
     };
     lista.appendChild(btn);
   });
 }
 
-// ── MODO FOCADO ──
-let focoQueue = [];
-let focoIdx = 0;
+/* ─── DRAWER MOBILE ─── */
+window.abrirDrawer = () => {
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.getElementById('drawer-filtros').classList.add('open');
+};
+window.fecharDrawer = () => {
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.getElementById('drawer-filtros').classList.remove('open');
+};
+window.aplicarDrawer = () => {
+  fecharDrawer();
+  // Copiar valores do drawer para os selects desktop (fonte de verdade unificada)
+  ['mat','dif','rev','ordem'].forEach(f => {
+    const d = document.getElementById(`d-filtro-${f}`);
+    const s = document.getElementById(`filtro-${f}`);
+    if(d && s) s.value = d.value;
+  });
+  const db_ = document.getElementById('d-busca');
+  const sb  = document.getElementById('busca');
+  if(db_ && sb) sb.value = db_.value;
+  renderCards();
+};
+window.limparFiltros = () => {
+  ['d-filtro-mat','d-filtro-dif','d-filtro-rev','d-filtro-ordem','d-busca',
+   'filtro-mat','filtro-dif','filtro-rev','busca'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = id.includes('ordem')||id.includes('d-filtro-ordem') ? 'recente' : '';
+  });
+  filtroTagsAtivas.clear();
+  renderCards();
+};
 
+/* ─── MODO FOCADO ─── */
+let focoQueue=[], focoIdx=0;
 window.iniciarFoco = function() {
   const hoje = new Date(); hoje.setHours(0,0,0,0);
-  focoQueue = erros.filter(e => !e.proxRevisao || new Date(e.proxRevisao) <= hoje);
+  focoQueue = erros.filter(e=>!e.proxRevisao||new Date(e.proxRevisao)<=hoje);
   if(!focoQueue.length) { toast('Nenhuma questão para revisar hoje!'); return; }
   focoIdx = 0;
   document.getElementById('foco-screen').style.display = 'flex';
   renderFocoCard();
 };
-
 function renderFocoCard() {
-  if(focoIdx >= focoQueue.length) {
-    toast('🎉 Revisão concluída!');
-    fecharFoco();
-    return;
-  }
+  if(focoIdx>=focoQueue.length) { toast('🎉 Revisão concluída!'); fecharFoco(); return; }
   const q = focoQueue[focoIdx];
-  document.getElementById('foco-badge').textContent = q.mat || 'Questão';
+  document.getElementById('foco-badge').textContent = q.mat||'Questão';
   document.getElementById('foco-progress').textContent = `${focoIdx+1} de ${focoQueue.length} questões`;
-  document.getElementById('foco-enunciado').textContent = q.enunciado || '';
-  document.getElementById('foco-gabarito').style.display = 'none';
-  document.getElementById('foco-gabarito').innerHTML = '';
-  document.getElementById('foco-actions').innerHTML = '<button class="foco-btn ver" onclick="focoVerGabarito()">👁 Ver Gabarito</button>';
+  document.getElementById('foco-enunciado').textContent = q.enunciado||'';
+  document.getElementById('foco-gabarito').style.display='none';
+  document.getElementById('foco-gabarito').innerHTML='';
+  document.getElementById('foco-actions').innerHTML='<button class="foco-btn ver" onclick="focoVerGabarito()">👁 Ver Gabarito</button>';
 }
-
-window.focoVerGabarito = function() {
+window.focoVerGabarito = () => {
   const q = focoQueue[focoIdx];
   const gab = document.getElementById('foco-gabarito');
-  gab.style.display = 'block';
-  gab.innerHTML = (q.correta ? '<b>✅ Correto:</b> ' + q.correta + '<br><br>' : '') +
-                  (q.obs ? '<b>📝 Obs:</b> ' + q.obs : '');
-  document.getElementById('foco-actions').innerHTML = `
+  gab.style.display='block';
+  gab.innerHTML=(q.correta?'<strong style="color:var(--success)">✅ Correto:</strong> '+q.correta+'<br><br>':'')
+               +(q.obs?'<strong>📝 Obs:</strong> '+q.obs:'');
+  document.getElementById('foco-actions').innerHTML=`
     <button class="foco-btn acertei" onclick="focoAcertei()">✓ Acertei</button>
     <button class="foco-btn errei" onclick="focoErrei()">✗ Errei</button>
   `;
 };
+window.focoAcertei = async () => { await window.acertou(focoQueue[focoIdx].id); focoIdx++; renderFocoCard(); };
+window.focoErrei   = async () => { await window.errouRev(focoQueue[focoIdx].id); focoIdx++; renderFocoCard(); };
+window.fecharFoco  = () => document.getElementById('foco-screen').style.display='none';
 
-window.focoAcertei = async function() {
-  await window.acertou(focoQueue[focoIdx].id);
-  focoIdx++;
-  renderFocoCard();
+/* ─── SIMULADO ─── */
+let queue=[];
+window.iniciarSimulado = () => {
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  queue = erros.filter(e=>!e.proxRevisao||new Date(e.proxRevisao)<=hoje);
+  if(!queue.length) return toast('Nada para revisar hoje!');
+  document.getElementById('simulado-screen').style.display='block';
+  nextSim();
+};
+function nextSim() {
+  if(!queue.length) { toast('Fim da revisão! 🎉'); return fecharSimulado(); }
+  const q = queue[0];
+  document.getElementById('simulado-content').innerHTML=`
+    <div class="card" style="padding:1.75rem;max-width:780px;margin:auto;cursor:default">
+      <span class="badge ${MATS[q.mat]||'badge-proc'}">${q.mat}</span>
+      ${q.artigo?`<div style="font-size:11px;color:var(--warning);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin:10px 0 4px">${q.artigo}</div>`:''}
+      <div style="font-size:18px;margin:16px 0;line-height:1.6;color:var(--ink)">${q.enunciado}</div>
+      <div id="rev-area"><button class="btn-primary" onclick="reveal('${q.id}')">Ver Gabarito & Explicação</button></div>
+    </div>
+  `;
+}
+window.reveal = id => {
+  const q = erros.find(x=>x.id===id);
+  document.getElementById('rev-area').innerHTML=`
+    <div style="padding:1rem;background:var(--paper2);border-radius:var(--radius);border-left:3px solid var(--accent);margin-top:16px">
+      ${q.correta?`<p style="font-size:13px;font-weight:600;color:var(--success);margin-bottom:6px">✅ Resposta correta</p>
+      <p style="font-size:14px;line-height:1.6;margin-bottom:14px;color:var(--ink)">${q.correta}</p>`:''}
+      ${q.obs?`<p style="font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink)">📝 Observação</p>
+      <p style="font-size:14px;line-height:1.6;margin-bottom:14px;color:var(--ink)">${q.obs}</p>`:''}
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="rev-btn acertei" style="padding:10px;min-height:44px" onclick="finishSim('${q.id}',true)">✓ Acertei</button>
+        <button class="rev-btn errei"   style="padding:10px;min-height:44px" onclick="finishSim('${q.id}',false)">✗ Errei</button>
+      </div>
+    </div>
+  `;
+};
+window.finishSim = async (id,ok) => {
+  if(ok) await window.acertou(id); else await window.errouRev(id);
+  queue.shift(); nextSim();
+};
+window.fecharSimulado = () => document.getElementById('simulado-screen').style.display='none';
+
+/* ─── EXPORTAÇÃO ─── */
+window.toggleExportMenu = () => {
+  document.getElementById('export-dropdown').classList.toggle('open');
 };
 
-window.focoErrei = async function() {
-  await window.errouRev(focoQueue[focoIdx].id);
-  focoIdx++;
-  renderFocoCard();
+window.exportarCSV = () => {
+  document.getElementById('export-dropdown').classList.remove('open');
+  const headers = ['Matéria','Artigo','Enunciado','Alternativa Correta','Alternativa Marcada','Motivo','Observação','Como Fixar','Dificuldade','Fonte','Tags','Acertos','Erros nas Revisões','Próxima Revisão'];
+  const rows = erros.map(e => [
+    e.mat, e.artigo, e.enunciado, e.correta, e.marquei,
+    e.motivo, e.obs, e.fixar, e.dif, e.fonte,
+    (e.tags||[]).join('; '),
+    e.acertos||0, e.errosRev||0, e.proxRevisao||''
+  ].map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  download('caderno_erros.csv', 'text/csv;charset=utf-8;', '\uFEFF'+csv);
+  toast('CSV exportado! ✓');
 };
 
-window.fecharFoco = function() {
-  document.getElementById('foco-screen').style.display = 'none';
+window.exportarJSON = () => {
+  document.getElementById('export-dropdown').classList.remove('open');
+  const data = erros.map(({id, criadoEm, ...rest}) => ({
+    ...rest,
+    exportadoEm: new Date().toISOString()
+  }));
+  download('caderno_erros.json', 'application/json', JSON.stringify(data, null, 2));
+  toast('JSON exportado! ✓');
 };
 
+window.exportarMarkdown = () => {
+  document.getElementById('export-dropdown').classList.remove('open');
+  const hoje = new Date().toLocaleDateString('pt-BR');
+  let md = `# Caderno de Erros — Exportado em ${hoje}\n\n`;
+  md += `**Total:** ${erros.length} questões\n\n---\n\n`;
+  erros.forEach((e, i) => {
+    md += `## ${i+1}. ${e.mat||'—'}${e.artigo?' — '+e.artigo:''}\n\n`;
+    if(e.enunciado) md += `**Enunciado:** ${e.enunciado}\n\n`;
+    if(e.correta)   md += `**✅ Correto:** ${e.correta}\n\n`;
+    if(e.marquei)   md += `**❌ Marquei:** ${e.marquei}\n\n`;
+    if(e.motivo)    md += `**Por que errei:** ${e.motivo}\n\n`;
+    if(e.obs)       md += `**Observação:** ${e.obs}\n\n`;
+    if(e.fixar)     md += `**Como fixar:** ${e.fixar}\n\n`;
+    if(e.tags&&e.tags.length) md += `**Tags:** ${e.tags.join(', ')}\n\n`;
+    md += `**Dificuldade:** ${e.dif||'—'} | **Acertos:** ${e.acertos||0} | **Erros:** ${e.errosRev||0}`;
+    if(e.fonte) md += ` | **Fonte:** ${e.fonte}`;
+    md += '\n\n---\n\n';
+  });
+  download('caderno_erros.md', 'text/markdown', md);
+  toast('Markdown exportado! ✓');
+};
+
+function download(filename, mime, content) {
+  const blob = new Blob([content], {type: mime});
+  const url  = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ─── TOAST ─── */
 function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 2800);
 }
+window.toast = toast;
 </script>
 </body>
 </html>
